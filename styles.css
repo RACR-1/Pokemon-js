@@ -1,0 +1,119 @@
+.TerrenoEletricos, .TerrenoFogo, .TerrenoAgua {
+    width: 600px;
+    height: 160px;
+    border: 5px solid black;
+    margin: 40px;
+    
+}
+.containerTerrenos{
+    width: 600px;
+    height: 495px;
+    position: absolute;
+    border: 3px solid blue;
+    left: 200px;
+}   
+
+.PvpChat{
+    border: 4px solid rgb(0, 255, 145);
+    position: relative;
+    width: 600px;
+    height: auto;
+    left: 650px;
+}
+
+.PvpOpcoes{
+    width: auto/* 130px */;
+    height: auto;
+    border: 3px solid black;
+    position: absolute;
+    top:540px;
+    right: 1366px;
+}
+.TerrenoEletricos{
+    position: absolute;
+    bottom: 500px;
+    left: -48px;
+    top:-39px;
+}
+
+.TerrenoFogo{
+    position: absolute;
+    top: 160px;
+    left: -45px;
+}
+
+.TerrenoAgua {
+    position: absolute;
+    top: 360px; 
+    left: -45px;
+}
+
+.imgsFormat{
+    width: 260px;
+    position: relative;
+    right: 170px;
+    top: 5px;
+    
+}
+
+#idEletricos{
+    
+}
+#idFogo{
+
+}
+#idAgua{
+
+}
+.imgEstadio{
+    width: 200px;
+    position: absolute;
+    right: 10px;
+    top: 20px;
+}
+.BtnBattles{
+    position: absolute;
+    top: 166px;
+    right: 410px;
+}
+.btnTn{
+    position: absolute;
+    left: 400px;
+    top: 160px;
+}
+
+.divChPvp{
+    width: 596px;  
+    height: 40px;  
+    border: 2px solid red;
+    background-color:  rgb(196, 189, 189);
+    /* position: relative; */
+    /* right: 516px; */
+}
+
+#ChPvpWin{    
+    background-color: rgba(64, 192, 64, 0.929);
+}
+#ChPvpLoos{
+    background-color: rgba(255, 0, 0, 0.996);
+}
+/* Conseguiu pokemon */
+#NewPkm{
+    background-color: rgb(47, 255, 0);
+    width: 300px;
+    height: 200px;
+    position: relative;
+}
+#imgGotPkm{
+    width:90px ;
+    height: auto;
+    position: absolute;
+    top: 40px;
+    right: 104px;
+}
+
+#lblPkmGot{
+
+}
+
+/* Conseguiu pokemon */

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+</head>
+<body id="bodyApp">    
+    <center>    
+    <script src="./Pokemon.js"></script>
+    <script src="./Player.js"></script>
+    <div class="main">
+
+        <div id="status">
+            <label for="" id="lblPId"></label>
+        </div>
+        
+    <div class="num1">
+        <form id="my-form" action="">
+            <label for="txt">Digite Seu Nome:</label>
+            
+            <br/>
+            <input id="txt" type="text"></input><br/>
+            <label for="idad">Digite Sua idade:</label>
+            
+            <br/>
+            <input id="idad" type="text"></input><br/>
+            <label for="listaTipos">Tipos de Pokemons:</label><br/>
+            <select name="listaTipos" id="listaTipos"></select><br/>
+            
+            <label for="listaPokemons" id="label-lista">Lista De Pokemons:</label><br/>
+            <select name="listaPokemons" id="listaPokemons"></select>
+            <br/>
+            
+            <button type="submit" id="butao">enviar</button>
+            <br></br>
+            <button type="submit" id="showObject">show object</button>
+        </form> 
+    </div>
+
+
+    <div class="num2">
+
+        <!-- <div id="status">
+            <label for="" id="lblPId"></label>
+        </div> -->
+        <div id="mostrarTodosPokemons">
+            <button id="btnShowAllPKS"> Mostrar Pokemons </button>
+        </div>
+        <div id="listaDeVitorias" >
+            <button id="btnShowWins">Mostrar vitorias</button>
+        </div>
+        <div id="Batalhar">
+            <button id="btnBatalhar">Batalhar PVP</button>
+        </div>
+        <div id="mostrarAutoria">
+            <button id="btnAutoria">Autor</button>
+        </div>
+        <div id="sair" >
+            <button id="btnSair">Sair</button>
+        </div>
+
+    </div>
+
+
+
+    <div class="num3">
+        <Div class="PvpOpcoes">
+        <button id="btnBackMain">Voltar ao Menu Principal</button><br/>
+        <button id="btnProcurarPA">Procurar pokemon aleatorio</button><br/>
+        
+        </Div>
+
+        <div class="containerTerrenos">
+            <div class="TerrenoEletricos">
+                <img src="./imagens/TerrenoEletricos.jpg" class="imgsFormat" id="idEletricos" alt=""></img>
+                <img src="./imagens/estadio.png" class="imgEstadio" alt=""></img>
+
+                <button class="BtnBattles" id="btnProEl">procurar pokemons eletricos</button>   
+                <button class="btnTn" id="btnBtEl">Batalhar contra treinador De eltricos</button>             
+                
+            </div>
+
+            <div class="TerrenoFogo">
+                <img src="./imagens/TerrenoFogo.jpg" class="imgsFormat" id="idFogo" alt=""></img>
+                <img src="./imagens/estadio.png" class="imgEstadio" alt=""></img>
+
+                <button class="BtnBattles" id="btnProFo">procurar pokemons de fogo</button>
+                <button class="btnTn" id="btnBtFo">Batalhar contra treinador de Fogo</button>
+
+            </div>
+
+            <div class="TerrenoAgua">
+                <img src="./imagens/TerrenoAgua.jpg" class="imgsFormat" id="idAgua" alt=""></img>
+                <img src="./imagens/estadio.png" class="imgEstadio" alt=""></img>
+
+                <button class="BtnBattles" id="btnProAg">procurar pokemons de agua</button>
+                <button class="btnTn" id="btnBtAg">Batalhar contra treinador de Agua</button>
+
+            </div>
+            <div class="PvpChat">
+               <!--  <div class="divChPvp"  id="NpcChat"></div>
+                <div class="divChPvp" >ataque 2</div>
+                <div class="divChPvp" id="ChPvpWin"></div>
+                <div class="divChPvp" id="ChPvpLoos"></div> -->
+                <!-- <div class="divChPvp" id="NewPkm">
+                    <label for="imgGotPkm" class="divChPvp" id="lblPkmGot">aaaaaaaaa</label>
+                    <img src="./imagens/Caterpie.png" class="divChPvp" id="imgGotPkm"></img>
+                </div> -->
+            </div>
+    </div>
+
+
+    
+    </div>
+</div>
+    
+    <script src="./MainPlay.js"></script>
+    <script src="./MainMenu.js"></script>
+    <script src="./Pvp.js"></script>
+    </center>
+    
+</body>
+</html>

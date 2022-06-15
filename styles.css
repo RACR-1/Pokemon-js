@@ -90,7 +90,32 @@
     /* position: relative; */
     /* right: 516px; */
 }
+/* .divChPvpImgCrit{
+    width: 20px;  
+    height: 20px;          
+    position: relative ;
+    left: 290px;
+    top: 65px;
 
+} */
+.divChPvpImgCrit{
+    width: 20px;  
+    height: 20px;          
+    position: absolute ;
+    left: 300px;
+    padding: 18px 1px 1px 1px ;    
+
+}
+
+
+.divChPvpCritico{   
+    width: 596px;  
+    height: 40px;  
+    border: 2px solid red;  
+    background-color:  rgb(255, 130, 21);   
+    /* position: absolute; */   
+    
+}   
 #ChPvpWin{    
     background-color: rgba(64, 192, 64, 0.929);
 }

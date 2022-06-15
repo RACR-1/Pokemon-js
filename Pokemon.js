@@ -1,5 +1,9 @@
-let chatreference = [];
-let oponPoke = "";
+let chatreference = {
+  list: [],
+  enemy: [],
+  critical: { type: [], positio: [] }, // talvez fazer outro objeto como pictures
+  pictures: { name: [], positio: [] },
+};
 
 const listEletricos = [
   "eletricos",
@@ -98,20 +102,17 @@ class Pokemon {
     //
     this.attack = (champion) => {
       //
-
+      console.log("attack is working");
       //
-      oponPoke = "";
-      oponPoke = [];
-      oponPoke.push(champion);
-      chatreference = "";
-      chatreference = [];
+      chatreference.enemy = "";
+      chatreference.enemy = [];
+      chatreference.enemy.push(champion);
+      chatreference.list = "";
+      chatreference.list = [];
       let lifoponent = champion.life;
       let mylife = this.life;
-      console.log("----------------------------------");
-      console.log(
-        `Vida inicial de seu pokemon ${this.nome} : ${mylife} , vida inicial de ${champion.nome} inimigo : ${champion.life}.`
-      );
-      chatreference.push(
+
+      chatreference.list.push(
         `Vida inicial de seu pokemon ${this.nome} : ${mylife} , vida inicial de ${champion.nome} inimigo : ${lifoponent}.`
       );
       //
@@ -123,18 +124,19 @@ class Pokemon {
 
         let meudano = lifoponent;
         lifoponent = lifoponent - this.damage();
-        let dCausado = meudano - lifoponent;
+        let dCausado = meudano - lifoponent; //
         let SeuDanoTota = parseInt(0);
         SeuDanoTota = SeuDanoTota + dCausado;
-
-        chatreference.push(
+        //if dano tal maior que adicionar no chat reference com push vai ser uma lista de 0 ou 1 assim da pra ver se é critico
+        // mesmo sistema com as fotos tem 2 ataques no primeiro bota 1 no segundo zero essa numeração vai definir prioridade
+        chatreference.list.push(
           `Seu ${this.nome} Tipo : ${this.tipo} Deu ${dCausado} de dano no ${champion.nome} `
         );
-
-        console.log(
-          `Seu ${this.nome} Tipo : ${this.tipo} Deu ${dCausado} de dano no ${champion.nome} `
-        );
-        console.log("vida do oponente " + lifoponent);
+        if (dCausado > 4) {
+          chatreference.critical.positio.push(chatreference.list.length - 1);
+          chatreference.critical.type.push(this.tipo);
+        }
+        //aqui
         if (lifoponent <= 0) {
           //
           if (player) {
@@ -157,19 +159,14 @@ class Pokemon {
           }
 
           //
-          chatreference.push(
+          chatreference.list.push(
             `Você venceu! ${champion.nome} inimigo esta com ${lifoponent} de vida! `
           );
 
-          console.log(
-            `Você venceu! ${champion.nome} inimigo esta com ${lifoponent} de vida! `
-          );
-          console.log(`Vida atual de Seu pokemon ${this.nome} é ${mylife}`);
-          console.log("----------------------------------");
-          chatreference.push(
+          chatreference.list.push(
             `Vida atual de Seu pokemon ${this.nome} é ${mylife}`
           );
-          chatreference.push({ Win: "win" });
+          chatreference.list.push({ Win: "win" });
 
           break;
         }
@@ -182,23 +179,24 @@ class Pokemon {
         let dCausadoOp = danoinim - mylife;
         let inDanoTota = parseInt(0);
         inDanoTota = SeuDanoTota + dCausado;
-        chatreference.push(
+        chatreference.list.push(
           `${champion.nome} tipo: ${champion.tipo} deu ${dCausadoOp} em seu pokemon ${this.nome} `
         );
-        console.log(
-          `${champion.nome} tipo: ${champion.tipo} deu ${dCausadoOp} em seu pokemon ${this.nome} `
+        //
+        if (dCausadoOp > 4) {
+          chatreference.critical.positio.push(chatreference.list.length - 1);
+          chatreference.critical.type.push(champion.tipo);
+        }
+        //
+        chatreference.list.push(
+          `Sua vida ${mylife} vida do oponente ${lifoponent}`
         );
-        console.log("Sua vida " + mylife);
-        chatreference.push(`Sua vida ${mylife} vida do oponente ${lifoponent}`);
         if (mylife <= 0) {
-          console.log(`Você perdeu ${champion.nome} venceu!`);
-          chatreference.push(`Você perdeu ${champion.nome} venceu!`);
+          chatreference.list.push(`Você perdeu ${champion.nome} venceu!`);
 
-          console.log("Sua vida: " + mylife);
-          chatreference.push(`Sua vida:   ${mylife}`);
-          chatreference.push({ Loose: "Loose" });
+          chatreference.list.push(`Sua vida:   ${mylife}`);
+          chatreference.list.push({ Loose: "Loose" });
 
-          console.log("----------------------------------");
           if (champion.player) {
             let youLoos = {
               resultado: `Derrota [${champion.nome} - ${champion.tipo}] contra [${this.nome} - ${this.tipo}] de ${this.player.nome}`,

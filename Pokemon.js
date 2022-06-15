@@ -1,6 +1,8 @@
 let chatreference = {
   list: [],
   enemy: [],
+  names: [] /* { player: undefined, enemy: undefined } */,
+
   critical: { type: [], positio: [] }, // talvez fazer outro objeto como pictures
   pictures: { name: [], positio: [] },
 };
@@ -102,6 +104,8 @@ class Pokemon {
     //
     this.attack = (champion) => {
       //
+      chatreference.names.push(this.nome);
+      chatreference.names.push(champion.nome);
       console.log("attack is working");
       //
       chatreference.enemy = "";
@@ -116,6 +120,8 @@ class Pokemon {
         `Vida inicial de seu pokemon ${this.nome} : ${mylife} , vida inicial de ${champion.nome} inimigo : ${lifoponent}.`
       );
       //
+      chatreference.pictures.positio.push(chatreference.list.length - 1);
+      chatreference.pictures.name.push(0);
 
       while (true) {
         //
@@ -136,6 +142,8 @@ class Pokemon {
           chatreference.critical.positio.push(chatreference.list.length - 1);
           chatreference.critical.type.push(this.tipo);
         }
+        chatreference.pictures.positio.push(chatreference.list.length - 1);
+        chatreference.pictures.name.push(0);
         //aqui
         if (lifoponent <= 0) {
           //
@@ -187,6 +195,8 @@ class Pokemon {
           chatreference.critical.positio.push(chatreference.list.length - 1);
           chatreference.critical.type.push(champion.tipo);
         }
+        chatreference.pictures.positio.push(chatreference.list.length - 1);
+        chatreference.pictures.name.push(1);
         //
         chatreference.list.push(
           `Sua vida ${mylife} vida do oponente ${lifoponent}`

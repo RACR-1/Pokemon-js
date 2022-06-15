@@ -13,6 +13,7 @@ let foundedPokemon = undefined;
 //
 
 btnPrPA.addEventListener("click", () => {
+  //
   if (battleStatus.run == 0) {
     let checkselc1 = document.querySelector("#slcPmBtid");
     let checkBtnpronto = document.querySelector("#btnPkmPro");
@@ -124,22 +125,35 @@ async function funChatRef(player, chatRef, oponente) {
 
       putonchat.textContent = chatRef[i];
       console.log(chatreference.critical.positio[i]);
+
       if (chatreference.critical.positio[0] == i) {
         chatreference.critical.positio.shift();
-
         let imgcrit = document.createElement("img");
-
         imgcrit.src = `./imagens/Critico/${chatreference.critical.type[0]}.png`;
         imgcrit.classList.add("divChPvpImgCrit");
-
         putonchat.appendChild(imgcrit);
         putonchat.classList.add("divChPvpCritico");
         chatreference.critical.type.shift();
       } else {
-        console.log("sem critico");
         putonchat.classList.add("divChPvp");
       }
-
+      if (chatreference.pictures.positio[0] == i) {
+        if (chatreference.pictures.name[0] == 0) {
+          // criar img player
+          //criar img opoenete
+          const first = imgBattleElement(chatreference.names[0], 0);
+          const second = imgBattleElement(chatreference.names[1], 1);
+          putonchat.appendChild(first);
+          putonchat.appendChild(second);
+        } else {
+          const first = imgBattleElement(chatreference.names[1], 0);
+          const second = imgBattleElement(chatreference.names[0], 1);
+          putonchat.appendChild(first);
+          putonchat.appendChild(second);
+        }
+        chatreference.pictures.positio.shift();
+        chatreference.pictures.name.shift();
+      }
       PvpChat.appendChild(putonchat);
     }
     await new Promise((r) => setTimeout(r, 800));
@@ -239,3 +253,14 @@ function delChatpvp() {
 function checkbattle() {}
 
 function stopbattle() {}
+
+function imgBattleElement(nome, position) {
+  const elementImg = document.createElement("img");
+  elementImg.src = `./imagens/${nome}.png`;
+  if (position == 0) {
+    elementImg.classList.add("divChPvpImgFirst");
+  } else if (position == 1) {
+    elementImg.classList.add("divChPvpImgSecond");
+  }
+  return elementImg;
+}

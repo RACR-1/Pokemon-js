@@ -107,6 +107,23 @@
 
 }
 
+.divChPvpImgFirst{
+    width: 35px;  
+    height: auto /* 35px */;          
+    position: absolute ;
+    left: 1px;
+    padding: 0px 1px 1px 1px ;    
+
+}
+.divChPvpImgSecond{
+    width: 37px;  
+    height: auto /* 35px */;          
+    position: absolute ;
+    left: 560px;
+    padding: 0px 1px 1px 1px ;    
+
+}
+
 
 .divChPvpCritico{   
     width: 596px;  

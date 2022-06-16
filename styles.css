@@ -158,4 +158,17 @@
 
 }
 
+#chosePoke{
+    width: 50px;
+    position: relative;
+    padding: 20px 1px 1px 1px;
+}
 /* Conseguiu pokemon */
+
+.PvpOpcoesTipos{
+    width: 170px;
+    border: 3px solid black;
+    position: absolute;
+    top: 400px;
+    /* padding: 1px 1px 1px 1px; */
+}

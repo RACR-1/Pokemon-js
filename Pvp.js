@@ -11,19 +11,23 @@ let battleStatus = {
 let foundedPokemon = undefined;
 
 //
+/* insertPokemon(mainPlayer, [new Pokemon()]); */
 
 btnPrPA.addEventListener("click", () => {
   //
+
   if (battleStatus.run == 0) {
     let checkselc1 = document.querySelector("#slcPmBtid");
     let checkBtnpronto = document.querySelector("#btnPkmPro");
     let checkProcurar = document.querySelector("#btnProcurar");
+    let checkopcimg = document.querySelector("#chosePoke");
 
     if (checkselc1 || checkBtnpronto || checkProcurar) {
       divOpcoes.removeChild(checkselc1);
 
       divOpcoes.removeChild(checkBtnpronto);
       divOpcoes.removeChild(checkProcurar);
+      divOpcoes.removeChild(checkopcimg);
       delChatpvp();
       btnPrPA.textContent = "Procurar pokemon aleatorio";
     } else {
@@ -43,7 +47,7 @@ btnPrPA.addEventListener("click", () => {
       BtnProcurar.id = "btnProcurar";
       BtnProcurar.textContent = "Procurar";
 
-      //
+      //chosePoke comentario
       let btnPkmPro = document.createElement("button");
       btnPkmPro.id = "btnPkmPro";
       btnPkmPro.textContent = "Batalhar";
@@ -51,14 +55,19 @@ btnPrPA.addEventListener("click", () => {
       divOpcoes.appendChild(BtnProcurar);
       divOpcoes.appendChild(slcPmBt);
       divOpcoes.appendChild(btnPkmPro);
+      let opc = document.querySelector("#slcPmBtid");
+      let choseElement = funRtI(opc.firstChild.textContent);
+      choseElement.id = "chosePoke";
+      divOpcoes.appendChild(choseElement);
     }
+
     procurarPk();
   } else {
     battleStatus.stop = 1;
   }
 });
 
-function procurarPk() {
+function procurarPk(imgchose = "") {
   const btnProcurar = document.querySelector("#btnProcurar");
 
   btnProcurar.addEventListener("click", () => {
@@ -75,29 +84,37 @@ function procurarPk() {
   });
   const btnPronto = document.querySelector("#btnPkmPro");
   const ChosenPokemon = document.querySelector("#slcPmBtid");
+  let ch = document.getElementById("chosePoke");
+  ChosenPokemon.addEventListener("change", () => {
+    let a = mainPlayer.pokemons[ChosenPokemon.value].nome;
+    ch.src = `./imagens/${a}.png`;
+  });
 
   btnPronto.addEventListener("click", () => {
-    const checkchpvp = document.querySelectorAll(".divChPvp");
-    if (checkchpvp.length > 3 || battleStatus.run > 0) {
-      //
-      alert("Você ainda esta em batalha");
-    } else {
-      let ch = ChosenPokemon.value;
+    let ch = ChosenPokemon.value;
+    if (foundedPokemon) {
       mainPlayer.pokemons[ch].attack(foundedPokemon);
       funChatRef(mainPlayer, chatreference.list, chatreference.enemy);
+    } else {
+      alert("Procure um Pokemon");
     }
   });
 }
 
 const oponente = new Pokemon("Wooper");
 const jogador = new Player("Rodrigo", 20, [
-  new Pokemon("Raichu", "", ""),
   new Pokemon("Caterpie", "", ""),
+  new Pokemon("Pidgey", "", ""),
+  new Pokemon("Pikachu", "", ""),
+  new Pokemon("Raichu", "", ""),
+  new Pokemon("Sandshrew", "", ""),
 ]);
-
+funFilterLuckybyType(jogador.pokemons, listadospoke[0]);
 //
 
 async function funChatRef(player, chatRef, oponente) {
+  console.log(chatreference.pictures.name, "ordem dos nomes");
+  console.log(chatreference.pictures.positio, "pisição");
   whilebattle.textContent = "Parar Batalha";
 
   battleStatus.run = 1;
@@ -158,9 +175,11 @@ async function funChatRef(player, chatRef, oponente) {
     }
     await new Promise((r) => setTimeout(r, 800));
   }
+  foundedPokemon = undefined;
   battleStatus.stop = 0;
   battleStatus.run = 0;
   btnPrPA.textContent = "Recolher e limpar";
+  return;
 }
 
 function FunAllLucky(player) {
@@ -173,9 +192,14 @@ function FunAllLucky(player) {
 }
 
 function funFilterLuckybyType(listaPlyer, arrayTakeOf) {
+  let group = [];
+  for (var i = 0; i < listaPlyer.length; i++) {
+    group.push(listaPlyer[i].nome);
+  }
   let filt = arrayTakeOf.filter((e) => {
-    return listaPlyer.indexOf(e) === -1;
+    return group.indexOf(e) < 0;
   });
+
   filt.shift();
 
   if (filt.length >= 0) {
@@ -185,32 +209,37 @@ function funFilterLuckybyType(listaPlyer, arrayTakeOf) {
   }
 }
 
-function funDarPkm(Player, espc = "", tipo = "") {
+function funDarPkm(player, espc = "", tipo = "") {
+  console.log(player, "the player bug");
   if (tipo == "fogo") {
-    let autoName = funFilterLuckybyType(Player.pokemons, listadospoke[2]);
+    let autoName = funFilterLuckybyType(player.pokemons, listadospoke[2]);
 
-    let givePkm = new Pokemon(autoName, "", undefined, Player);
+    let givePkm = new Pokemon(autoName);
+    insertPokemon(mainPlayer, givePkm);
 
     putImgChat(givePkm);
   } else if (tipo == "agua") {
     let autoName = funFilterLuckybyType(player.pokemons, listadospoke[1]);
-    let givePkm = new Pokemon(autoName, "", undefined, Player);
+    let givePkm = new Pokemon(autoName);
+    insertPokemon(mainPlayer, givePkm);
 
     putImgChat(givePkm);
   } else if (tipo == "eletrico") {
     let autoName = funFilterLuckybyType(player.pokemons, listadospoke[0]);
-    let givePkm = new Pokemon(autoName, "", undefined, Player);
+    let givePkm = new Pokemon(autoName);
+    insertPokemon(mainPlayer, givePkm);
 
     putImgChat(givePkm);
-  } else if (Player && espc) {
-    let givePkm = new Pokemon(espc, "", undefined, Player);
-
+  } else if (player && espc) {
+    let givePkm = new Pokemon(espc);
+    insertPokemon(mainPlayer, givePkm);
     putImgChat(givePkm);
-  } else {
-    let autoName = FunAllLucky(Player.pokemons);
+  } else if (player && espc == "" && tipo == "") {
+    let autoName = FunAllLucky(player.pokemons);
 
-    let givePkm = new Pokemon(autoName, undefined, undefined, Player);
+    let givePkm = new Pokemon(autoName);
 
+    insertPokemon(player, new Pokemon(autoName));
     putImgChat(givePkm);
   }
 }

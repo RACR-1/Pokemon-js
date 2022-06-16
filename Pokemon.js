@@ -104,6 +104,12 @@ class Pokemon {
     //
     this.attack = (champion) => {
       //
+      chatreference.pictures.name = "";
+      chatreference.pictures.name = [];
+      chatreference.pictures.positio = "";
+      chatreference.pictures.positio = [];
+      chatreference.names = "";
+      chatreference.names = [];
       chatreference.names.push(this.nome);
       chatreference.names.push(champion.nome);
       console.log("attack is working");

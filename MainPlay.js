@@ -62,13 +62,28 @@ let pokemonObj = {
   nivel: "",
 };
 
+function insertPokemon(player1, pokemon) {
+  if (Array.isArray(pokemon) == true) {
+    //
+    console.log(player1);
+    for (var i = 0; i < pokemon.length; i++) {
+      pokemon[i].player = player1;
+      player1.pokemons.push(pokemon[i]);
+    }
+  } else {
+    console.log(player1, "funcionei");
+    pokemon.player = "";
+    pokemon.player = player1;
+    player1.pokemons.push(pokemon);
+  }
+}
+
 butao.addEventListener("click", (e) => {
   e.preventDefault();
   if (nme.value && idade.value) {
-    mainPlayer = new Player(nme.value, idade.value, [
-      new Pokemon(selcpokes.value, selctipos.value),
-      new Pokemon(),
-    ]);
+    mainPlayer = new Player(nme.value, idade.value, []);
+    let choosePokemon = new Pokemon(selcpokes.value, selctipos.value);
+    insertPokemon(mainPlayer, [choosePokemon, new Pokemon()]);
     /* dive.style.display = "none";
     div2.style.display = ""; */
   } else {

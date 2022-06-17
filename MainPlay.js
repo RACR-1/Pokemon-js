@@ -22,9 +22,6 @@ selcpokes.style.display = "none"; */
 var mainPlayer = "";
 
 for (i = 0; i < listadospoke.length; i++) {
-  console.log(listadospoke[i][0]);
-}
-for (i = 0; i < listadospoke.length; i++) {
   const opc1 = document.createElement("option");
   opc1.id = "tiposl";
   opc1.value = listadospoke[i][0];
@@ -65,13 +62,12 @@ let pokemonObj = {
 function insertPokemon(player1, pokemon) {
   if (Array.isArray(pokemon) == true) {
     //
-    console.log(player1);
+
     for (var i = 0; i < pokemon.length; i++) {
       pokemon[i].player = player1;
       player1.pokemons.push(pokemon[i]);
     }
   } else {
-    console.log(player1, "funcionei");
     pokemon.player = "";
     pokemon.player = player1;
     player1.pokemons.push(pokemon);

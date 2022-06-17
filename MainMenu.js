@@ -15,13 +15,43 @@ const btnEcP = document.createElement("button");
 const divMTP = document.querySelector("#mostrarTodosPokemons");
 
 //
+function countGamesNumber(mPlayer, conditional = "") {
+  if (!conditional) {
+    let wNumber = [];
+
+    for (var i = 0; i < mPlayer.games.length; i++) {
+      if (mPlayer.games[i].conditional == 1) {
+        wNumber.push(mPlayer.games[i].conditional);
+      }
+    }
+
+    return wNumber.length;
+  } else {
+    let lNumber = [];
+
+    for (var i = 0; i < mPlayer.games.length; i++) {
+      if (mPlayer.games[i].conditional == 0) {
+        lNumber.push(mPlayer.games[i].conditional);
+      }
+    }
+
+    return lNumber.length;
+  }
+}
+function updateStatusLabel(mPlayer) {
+  statusLabel.innerText = ` Nome:[${mPlayer.nome}]-Idade:[${
+    mPlayer.idade
+  }]-Games:[${mPlayer.games.length}]-Vitorias:[${countGamesNumber(
+    mPlayer
+  )}]-Derrotas:[${countGamesNumber(mPlayer, "0")}] `;
+}
 butao.addEventListener("click", () => {
-  statusLabel.innerText = ` Nome:[${mainPlayer.nome}]-Idade:[${mainPlayer.idade}]-Vitorias:[${mainPlayer.wins}] `;
+  updateStatusLabel(mainPlayer);
 });
 
 btnMostrarPokemons.addEventListener("click", () => {
   const CPtest = document.querySelectorAll("#lblCP");
-  console.log(CPtest);
+
   if (CPtest.length >= 1) {
     FunCPeD("", divMTP, "lblCP");
   }

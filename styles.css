@@ -172,3 +172,18 @@
     top: 400px;
     /* padding: 1px 1px 1px 1px; */
 }
+
+.divChPvpImgFirstAttack{
+    width: 40px;  
+    height: auto /* 35px */;          
+    position: absolute ;
+    left: 450px;
+    padding: -1px 1px 1px 100px ;  
+}
+
+#BtnRematch{
+    position: absolute;
+    top: 100px;
+    left: 16px;
+    
+}

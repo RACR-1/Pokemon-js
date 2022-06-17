@@ -6,7 +6,7 @@ class Player {
     this.nome = nome ? verifyname(nome) : "Desconhecido";
     this.idade = idade ? idade : 18;
     this.pokemons = a;
-    this.wins = [];
+    this.games = [];
     this.batalhar = (oponen) => {
       function senpc(oponem) {
         const nomz = oponem.nome;

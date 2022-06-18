@@ -41,6 +41,7 @@ btnPrPA.addEventListener("click", () => {
       for (i = 0; i < mainPlayer.pokemons.length; i++) {
         let opcSlcPmBt = document.createElement("Option");
         opcSlcPmBt.value = i;
+        opcSlcPmBt.id = "optionPokemon";
         opcSlcPmBt.textContent = mainPlayer.pokemons[i].nome;
         slcPmBt.appendChild(opcSlcPmBt);
       }
@@ -73,12 +74,16 @@ function procurarPk(imgchose = "") {
   const btnProcurar = document.querySelector("#btnProcurar");
 
   btnProcurar.addEventListener("click", () => {
+    const checkRematch = document.querySelector("#BtnRematch");
+    if (checkRematch) {
+      divOpcoes.removeChild(checkRematch);
+    }
     if (battleStatus.run == 0) {
       delChatpvp();
 
       foundedPokemon = new Pokemon(FunAllLucky([]), "", undefined, "");
-      foundedPokemon.rematch = 0;
 
+      console.log(foundedPokemon.rematch, "search log rematch");
       putImgChat(
         foundedPokemon,
         `você encontrou um ${foundedPokemon.nome} tipo ${foundedPokemon.tipo}`
@@ -134,9 +139,9 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
     }
     if (chatRef[i].Loose) {
       /* resultLooseRefChat++; */
-      ChoosePokemonForRematch.rematch++;
-
-      updateStatusLabel(player);
+      foundedPokemon.rematch++;
+      console.log(ChoosePokemonForRematch.rematch, "loose result rematch");
+      /* updateStatusLabel(player); */
       const putonchat = document.createElement("div");
       putonchat.classList.add("divChPvp");
       putonchat.id = "ChPvpLoos";
@@ -144,7 +149,7 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
       PvpChat.appendChild(putonchat);
       //
     } else if (chatRef[i].Win) {
-      updateStatusLabel(player);
+      /* updateStatusLabel(player); */
       const putonchat = document.createElement("div");
       putonchat.classList.add("divChPvp");
       putonchat.id = "ChPvpWin";
@@ -152,6 +157,7 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
       PvpChat.appendChild(putonchat);
       funDarPkm(player, "", "");
       //
+      updatePokemonListBattle();
     } else {
       const putonchat = document.createElement("div");
 
@@ -197,20 +203,18 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
       }
       PvpChat.appendChild(putonchat);
     }
-    /* await new Promise((r) => setTimeout(r, 800)); */
+    await new Promise((r) => setTimeout(r, 800));
   }
   // rematch
 
-  if (ChoosePokemonForRematch.rematch == 1) {
-    console.log(ChoosePokemonForRematch, "contagem rematch");
-    rematchRandomBattles(ChoosePokemonForRematch);
+  if (foundedPokemon.rematch == 1) {
+    if (player.rematchCoins) {
+      console.log(ChoosePokemonForRematch, "contagem rematch");
+      rematchRandomBattles(player, ChoosePokemonForRematch);
+    } else {
+      foundedPokemon = undefined;
+    }
   } else {
-    /* if (resultLooseRefChat > 1) {
-      let delbtn = document.querySelector("#BtnRematch");
-      if (delbtn) {
-        divOpcoes.removeChild(delbtn);
-      }
-    } */
     foundedPokemon = undefined;
   }
   battleStatus.stop = 0;
@@ -220,19 +224,20 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
 }
 //equal to zero the pokemon rematch when you search new pokemon
 //instead use variable with founded pokemon  put straight the new classe on function parameter
-async function rematchRandomBattles(pokemonRematch) {
+async function rematchRandomBattles(playerRematchCoins, pokemonRematch) {
   //
   let btnRematch = document.createElement("button");
   btnRematch.id = "BtnRematch";
   divOpcoes.appendChild(btnRematch);
 
   btnRematch.addEventListener("click", () => {
+    playerRematchCoins.rematchCoins--;
     delChatpvp();
     putImgChat(
       foundedPokemon,
       `você encontrou um ${foundedPokemon.nome} tipo ${foundedPokemon.tipo}`
     );
-    pokemonRematch.rematch++;
+    foundedPokemon.rematch++;
     pokemonRematch.attack(foundedPokemon);
     funChatRef(
       mainPlayer,
@@ -246,6 +251,7 @@ async function rematchRandomBattles(pokemonRematch) {
     btnRematch.textContent = `Revanche (${i})`;
     await new Promise((r) => setTimeout(r, 1000));
   }
+  divOpcoes.removeChild(btnRematch);
 }
 //
 function FunAllLucky(player) {
@@ -359,4 +365,23 @@ function imgBattleElement(nome, position) {
     elementImg.classList.add("divChPvpImgFirstAttack");
   }
   return elementImg;
+}
+
+function updatePokemonListBattle() {
+  let selectPokemons = document.querySelector("#slcPmBtid");
+  if (selectPokemons) {
+    let selctOptionsPokemons = document.querySelectorAll("#optionPokemon");
+    for (var i = 0; i < selctOptionsPokemons.length; i++) {
+      selectPokemons.removeChild(selctOptionsPokemons[i]);
+    }
+  }
+
+  for (i = 0; i < mainPlayer.pokemons.length; i++) {
+    let opcSlcPmBt = document.createElement("Option");
+    opcSlcPmBt.value = i;
+    opcSlcPmBt.id = "optionPokemon";
+    opcSlcPmBt.textContent = mainPlayer.pokemons[i].nome;
+    selectPokemons.appendChild(opcSlcPmBt);
+  }
+  //
 }

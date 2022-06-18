@@ -2,7 +2,7 @@ class Player {
   constructor(nome, idade, pokemons) {
     let a = [];
     testarpok(pokemons);
-
+    this.rematchCoins = 3;
     this.nome = nome ? verifyname(nome) : "Desconhecido";
     this.idade = idade ? idade : 18;
     this.pokemons = a;

@@ -91,6 +91,7 @@ butao.addEventListener("click", (e) => {
       dive.removeChild(alerta);
     }, 4000);
   }
+  updateStatusLabel(mainPlayer, "play");
 });
 
 selctipos.addEventListener("change", (e) => {

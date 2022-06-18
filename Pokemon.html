@@ -69,14 +69,22 @@
 
     <div class="num3">
         <Div class="PvpOpcoes" >
-        <button id="btnBackMain">Voltar ao Menu Principal</button><br/>
+        <button id="btnBackMain">Menu Principal</button><br/>
         <button id="btnProcurarPA" class="whileBattle">Procurar pokemon aleatorio</button><br/>
         <!-- <button id="BtnRematch" >revanche</button> -->
         <!-- <img src="./imagens/Charmander.png" id="chosePoke"></img> -->
         </Div>
-        <!-- <div class="PvpOpcoesTipos">
+        <div class="PvpOpcoesTipos"hidden>
+            <div id="labelChooseType"></div>
+            
+            <button id="typesBackMainMenu">Menu Principal</button><br/>
+            <button id="backAllTypesBattle">voltar</button><br>
+            
+            <button id="searchPokemoneByTypes">procurar</button><br>
+            <select name="" id="selectPokemonsByType"></select><br/>
+            <button id="battlePokemonByTypes">Batalhar</button>
 
-        </div> -->
+        </div>
 
         <div class="containerTerrenos">
             <div class="TerrenoEletricos">
@@ -138,10 +146,10 @@
     
     </div>
 </div>
-    
     <script src="./MainPlay.js"></script>
     <script src="./MainMenu.js"></script>
     <script src="./Pvp.js"></script>
+    <script src="./PvpByTypePokemons.js"></script>
     </center>
     
 </body>

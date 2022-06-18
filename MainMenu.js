@@ -38,15 +38,37 @@ function countGamesNumber(mPlayer, conditional = "") {
     return lNumber.length;
   }
 }
-function updateStatusLabel(mPlayer) {
-  statusLabel.innerText = ` Nome:[${mPlayer.nome}]-Idade:[${
-    mPlayer.idade
-  }]-Games:[${mPlayer.games.length}]-Vitorias:[${countGamesNumber(
-    mPlayer
-  )}]-Derrotas:[${countGamesNumber(mPlayer, "0")}] `;
+async function updateStatusLabel(mPlayer, autoRefres = "") {
+  if (!autoRefres) {
+    statusLabel.innerText = ` Nome:[${mPlayer.nome}]-Idade:[${
+      mPlayer.idade
+    }]-Games:[${mPlayer.games.length}]-Vitorias:[${countGamesNumber(
+      mPlayer
+    )}]-Derrotas:[${countGamesNumber(mPlayer, "0")}]-Revanches:[${
+      mPlayer.rematchCoins
+    }] `;
+  } else {
+    while (true) {
+      for (var i = 60; i > 0; i--) {
+        //
+        statusLabel.innerText = ` Nome:[${mPlayer.nome}]-Idade:[${
+          mPlayer.idade
+        }]-Games:[${mPlayer.games.length}]-Vitorias:[${countGamesNumber(
+          mPlayer
+        )}]-Derrotas:[${countGamesNumber(mPlayer, "0")}]-Revanches:[${
+          mPlayer.rematchCoins
+        }] - [${mPlayer.rematchCoins > 4 ? "fullCoins" : i + "s"}]`;
+        //
+        await new Promise((r) => setTimeout(r, 1000));
+      }
+      if (mPlayer.rematchCoins < 5) {
+        mPlayer.rematchCoins++;
+      }
+    }
+  }
 }
 butao.addEventListener("click", () => {
-  updateStatusLabel(mainPlayer);
+  /* updateStatusLabel(mainPlayer); */
 });
 
 btnMostrarPokemons.addEventListener("click", () => {

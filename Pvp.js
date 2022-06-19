@@ -2,12 +2,18 @@ const btnPrPA = document.querySelector("#btnProcurarPA");
 const divOpcoes = document.querySelector(".PvpOpcoes");
 const PvpChat = document.querySelector(".PvpChat");
 const whilebattle = document.querySelector(".whileBattle");
+const backfirstForm = document.querySelector("#backAllTypesBattle");
+const OpcsByType = document.querySelector(".PvpOpcoesTipos");
 //
 let resultLooseRefChat = 0;
-//
-let battleStatus = {
+//systemStatus
+
+let systemStatus = {
   run: 0,
   stop: 0,
+  formBattles: 0,
+  type: null /* { pokemons: null, npc: null } */,
+  //0 eletrico / 1 aquatico / 2 fogo / 3 livre // Npc the same
 };
 //
 let foundedPokemon = undefined;
@@ -18,7 +24,7 @@ let foundedPokemon = undefined;
 btnPrPA.addEventListener("click", () => {
   //
 
-  if (battleStatus.run == 0) {
+  if (systemStatus.run == 0) {
     let checkselc1 = document.querySelector("#slcPmBtid");
     let checkBtnpronto = document.querySelector("#btnPkmPro");
     let checkProcurar = document.querySelector("#btnProcurar");
@@ -31,10 +37,21 @@ btnPrPA.addEventListener("click", () => {
       divOpcoes.removeChild(checkProcurar);
       divOpcoes.removeChild(checkopcimg);
       delChatpvp();
+      if (foundedPokemon) {
+        foundedPokemon = null;
+      }
+      if (divOpcoes.children["BtnRematch"]) {
+        /* let checkRematchtodel = document.querySelector("#BtnRematch"); */
+        divOpcoes.removeChild(document.querySelector("#BtnRematch"));
+      }
       btnPrPA.textContent = "Procurar pokemon aleatorio";
     } else {
       //
-      btnPrPA.textContent = "Recolher e limpar";
+      if (PvpChat.firstChild) {
+        btnPrPA.textContent = "Recolher e limpar";
+      } else {
+        btnPrPA.textContent = "Recolher";
+      }
       let slcPmBt = document.createElement("select");
       slcPmBt.id = "slcPmBtid";
 
@@ -66,7 +83,7 @@ btnPrPA.addEventListener("click", () => {
 
     procurarPk();
   } else {
-    battleStatus.stop = 1;
+    systemStatus.stop = 1;
   }
 });
 
@@ -78,7 +95,7 @@ function procurarPk(imgchose = "") {
     if (checkRematch) {
       divOpcoes.removeChild(checkRematch);
     }
-    if (battleStatus.run == 0) {
+    if (systemStatus.run == 0) {
       delChatpvp();
 
       foundedPokemon = new Pokemon(FunAllLucky([]), "", undefined, "");
@@ -99,9 +116,10 @@ function procurarPk(imgchose = "") {
   });
 
   btnPronto.addEventListener("click", () => {
+    systemStatus.formBattles = 0;
     let ch = ChosenPokemon.value;
     if (foundedPokemon) {
-      if (battleStatus.run == 0) {
+      if (systemStatus.run == 0) {
         mainPlayer.pokemons[ch].attack(foundedPokemon);
         funChatRef(
           mainPlayer,
@@ -126,15 +144,19 @@ const jogador = new Player("Rodrigo", 20, [
   new Pokemon("Raichu", "", ""),
   new Pokemon("Sandshrew", "", ""),
 ]);
-funFilterLuckybyType(jogador.pokemons, listadospoke[0]);
+
 //
 
 async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
-  whilebattle.textContent = "Parar Batalha";
-
-  battleStatus.run = 1;
+  if (systemStatus.formBattles == 0) {
+    whilebattle.textContent = "Parar Batalha";
+  } else if (systemStatus.formBattles == 1) {
+    backfirstForm.textContent = "Parar Batalha";
+    //
+  }
+  systemStatus.run = 1;
   for (i = 0; i < chatRef.length; i++) {
-    if (battleStatus.stop > 0) {
+    if (systemStatus.stop > 0) {
       break;
     }
     if (chatRef[i].Loose) {
@@ -157,7 +179,11 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
       PvpChat.appendChild(putonchat);
       funDarPkm(player, "", "");
       //
-      updatePokemonListBattle();
+      if (systemStatus.formBattles == 0) {
+        updatePokemonListBattle("slcPmBtid");
+      } else if (systemStatus.formBattles == 1) {
+        updatePokemonListBattle("selectPokemonsByType");
+      }
     } else {
       const putonchat = document.createElement("div");
 
@@ -206,29 +232,64 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
     await new Promise((r) => setTimeout(r, 800));
   }
   // rematch
-
+  /* if (systemStatus.formBattles == 0) {
+    whilebattle.textContent = "Recolher e limpar";
+  } else if (systemStatus.formBattles == 1) {
+    backfirstForm.textContent = "Recolher e limpar";
+    //
+  } */
   if (foundedPokemon.rematch == 1) {
     if (player.rematchCoins) {
-      console.log(ChoosePokemonForRematch, "contagem rematch");
-      rematchRandomBattles(player, ChoosePokemonForRematch);
+      if (systemStatus.formBattles == 0) {
+        console.log(ChoosePokemonForRematch, "contagem rematch");
+        rematchRandomBattles(
+          player,
+          ChoosePokemonForRematch,
+          divOpcoes,
+          "BtnRematch"
+        );
+      } else if (systemStatus.formBattles == 1) {
+        console.log("into if rematch invoke function");
+        rematchRandomBattles(
+          player,
+          ChoosePokemonForRematch,
+          OpcsByType,
+          "BtnRematchform2"
+        );
+
+        //
+      }
     } else {
       foundedPokemon = undefined;
     }
   } else {
     foundedPokemon = undefined;
   }
-  battleStatus.stop = 0;
-  battleStatus.run = 0;
-  btnPrPA.textContent = "Recolher e limpar";
+  console.log(systemStatus.type, "current form");
+  systemStatus.stop = 0;
+  systemStatus.run = 0;
+  if (systemStatus.formBattles == 0) {
+    btnPrPA.textContent = "Recolher e limpar";
+  } else if (systemStatus.formBattles == 1) {
+    let recolhertSecondForm = document.querySelector("#backAllTypesBattle");
+    recolhertSecondForm.textContent = "Voltar e limpar";
+  }
+  systemStatus.type = null;
   return;
 }
 //equal to zero the pokemon rematch when you search new pokemon
 //instead use variable with founded pokemon  put straight the new classe on function parameter
-async function rematchRandomBattles(playerRematchCoins, pokemonRematch) {
-  //
+async function rematchRandomBattles(
+  playerRematchCoins,
+  pokemonRematch,
+  formToRemove,
+  idForFormat
+) {
+  //set the form for rename the button
+
   let btnRematch = document.createElement("button");
-  btnRematch.id = "BtnRematch";
-  divOpcoes.appendChild(btnRematch);
+  btnRematch.id = idForFormat;
+  formToRemove.appendChild(btnRematch);
 
   btnRematch.addEventListener("click", () => {
     playerRematchCoins.rematchCoins--;
@@ -245,13 +306,15 @@ async function rematchRandomBattles(playerRematchCoins, pokemonRematch) {
       chatreference.enemy,
       pokemonRematch
     );
-    divOpcoes.removeChild(btnRematch);
+    formToRemove.removeChild(btnRematch);
   });
   for (var i = 40; i >= 0; i--) {
     btnRematch.textContent = `Revanche (${i})`;
     await new Promise((r) => setTimeout(r, 1000));
   }
-  divOpcoes.removeChild(btnRematch);
+  if (formToRemove.children[idForFormat]) {
+    formToRemove.removeChild(btnRematch);
+  }
 }
 //
 function FunAllLucky(player) {
@@ -367,10 +430,13 @@ function imgBattleElement(nome, position) {
   return elementImg;
 }
 
-function updatePokemonListBattle() {
-  let selectPokemons = document.querySelector("#slcPmBtid");
+function updatePokemonListBattle(idOfSlect) {
+  //slcPmBtid
+  let selectPokemons = document.querySelector("#" + idOfSlect);
   if (selectPokemons) {
-    let selctOptionsPokemons = document.querySelectorAll("#optionPokemon");
+    let selctOptionsPokemons = document.querySelectorAll(
+      `#${idOfSlect} #optionPokemon`
+    );
     for (var i = 0; i < selctOptionsPokemons.length; i++) {
       selectPokemons.removeChild(selctOptionsPokemons[i]);
     }

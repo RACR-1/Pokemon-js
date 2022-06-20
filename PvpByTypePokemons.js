@@ -1,7 +1,8 @@
 //
 const LightningPokemons = document.querySelector("#btnProEl");
-const firePokemons = document.querySelector("#btnProFo");
 const watterPokemons = document.querySelector("#btnProAg");
+const firePokemons = document.querySelector("#btnProFo");
+
 //
 
 const labelTypePokemon = document.querySelector("#labelChooseType");
@@ -62,7 +63,23 @@ battlePokemonByTypes.addEventListener("click", () => {
   }
 });
 //pegar as classes dos butões invez do id pra mecher no frombattles
+
+//
+
+//
 LightningPokemons.addEventListener("click", () => {
+  intoButtonsOfType(0);
+});
+
+watterPokemons.addEventListener("click", () => {
+  intoButtonsOfType(1);
+});
+
+firePokemons.addEventListener("click", () => {
+  intoButtonsOfType(2);
+});
+
+function intoButtonsOfType(tipo) {
   if (systemStatus.run == 0) {
     if (divOpcoes.children["BtnRematch"]) {
       if (
@@ -78,25 +95,42 @@ LightningPokemons.addEventListener("click", () => {
           backfirstForm.textContent = "Voltar e limpar";
         }
         systemStatus.formBattles = 1;
-        labelTypePokemon.textContent = "Tipo Raio";
+        if (tipo == 0) {
+          labelTypePokemon.textContent = "Tipo Raio";
+        } else if (tipo == 1) {
+          labelTypePokemon.textContent = "Tipo aquatico";
+        } else if (tipo == 2) {
+          labelTypePokemon.textContent = "Tipo Fogo";
+        }
         updatePokemonListBattle("selectPokemonsByType");
         battleByTypes(0);
       }
     } else {
       systemStatus.formBattles = 1;
-      labelTypePokemon.textContent = "Tipo Raio";
+      if (tipo == 0) {
+        labelTypePokemon.textContent = "Tipo Raio";
+      } else if (tipo == 1) {
+        labelTypePokemon.textContent = "Tipo aquatico";
+      } else if (tipo == 2) {
+        labelTypePokemon.textContent = "Tipo Fogo";
+      }
       updatePokemonListBattle("selectPokemonsByType");
-      battleByTypes(0);
+      battleByTypes(tipo);
     }
   }
-});
+}
 
 function battleByTypes(pokemonType) {
-  if (!systemStatus.run) {
-    divOpcoes.style.display = "none";
-    OpcsByType.style.display = "";
-    searchPokemoneByTypes.addEventListener("click", () => {
+  divOpcoes.style.display = "none";
+  OpcsByType.style.display = "";
+  searchPokemoneByTypes.addEventListener("click", () => {
+    if (!systemStatus.run) {
+      if (OpcsByType.children["BtnRematchform2"]) {
+        OpcsByType.removeChild(document.querySelector("#BtnRematchform2"));
+      }
+
       delChatpvp();
+      foundedPokemon = null;
       foundedPokemon = new Pokemon(
         funFilterLuckybyType([], listadospoke[parseInt(pokemonType)]),
         "",
@@ -107,8 +141,9 @@ function battleByTypes(pokemonType) {
         foundedPokemon,
         `você encontrou um ${foundedPokemon.nome} tipo ${foundedPokemon.tipo}`
       );
-    });
-  }
+      console.log(foundedPokemon.rematch, "novo pokemon encontrado");
+    }
+  });
 
   let imgPath = document.getElementById("chosePoketypes");
 

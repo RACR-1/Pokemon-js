@@ -145,6 +145,7 @@ class Pokemon {
       chatreference.firstAttack.position.push(chatreference.list.length - 1);
       chatreference.firstAttack.pokemon.push(chatreference.names[fAttack]);
       if (fAttack == 0) {
+        ////////////////////////////////////////////////////////////////////////////////
         while (true) {
           //
           //
@@ -250,6 +251,7 @@ class Pokemon {
           }
         }
       } else {
+        ///////////////////////////////////////////////////////////////////
         while (true) {
           //
           //

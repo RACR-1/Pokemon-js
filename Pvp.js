@@ -286,6 +286,7 @@ async function rematchRandomBattles(
   idForFormat
 ) {
   //set the form for rename the button
+  console.log(foundedPokemon, foundedPokemon.rematch, "rematch pokemon");
 
   let btnRematch = document.createElement("button");
   btnRematch.id = idForFormat;

@@ -10,13 +10,14 @@ const labelTypePokemon = document.querySelector("#labelChooseType");
 const searchPokemoneByTypes = document.querySelector("#searchPokemoneByTypes");
 const battlePokemonByTypes = document.querySelector("#battlePokemonByTypes");
 const ChosenPokemontypes = document.querySelector("#selectPokemonsByType");
+
 //labelChooseType
 //variavel de referencia para tipo de pokemon, botar um numero como valor
 //se estiver me batalha não mudar opções
 
 /* const allpokemonsByType = document.querySelector(".BtnBattles"); */
 
-OpcsByType.style.display = "";
+OpcsByType.style.display = "none";
 divOpcoes.style.display = "none";
 
 backfirstForm.addEventListener("click", () => {
@@ -122,7 +123,11 @@ function intoButtonsOfType(tipo) {
 
 function battleByTypes(pokemonType) {
   divOpcoes.style.display = "none";
+  PvpNpcs.style.display = "none";
   OpcsByType.style.display = "";
+
+  //put the if here to verify which  div is on
+
   searchPokemoneByTypes.addEventListener("click", () => {
     if (!systemStatus.run) {
       if (OpcsByType.children["BtnRematchform2"]) {

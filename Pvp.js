@@ -4,6 +4,7 @@ const PvpChat = document.querySelector(".PvpChat");
 const whilebattle = document.querySelector(".whileBattle");
 const backfirstForm = document.querySelector("#backAllTypesBattle");
 const OpcsByType = document.querySelector(".PvpOpcoesTipos");
+const PvpNpcs = document.querySelector(".PvpOpcoesNpc");
 //
 let resultLooseRefChat = 0;
 //systemStatus
@@ -12,10 +13,11 @@ let systemStatus = {
   run: 0,
   stop: 0,
   formBattles: 0,
-  type: null /* { pokemons: null, npc: null } */,
-  //0 eletrico / 1 aquatico / 2 fogo / 3 livre // Npc the same
+  type: null,
+  rematchStatus: 0,
 };
 //
+let npcChoosed = undefined;
 let foundedPokemon = undefined;
 
 //
@@ -285,6 +287,7 @@ async function rematchRandomBattles(
   formToRemove,
   idForFormat
 ) {
+  systemStatus.rematchStatus = 1;
   //set the form for rename the button
   console.log(foundedPokemon, foundedPokemon.rematch, "rematch pokemon");
 
@@ -293,26 +296,37 @@ async function rematchRandomBattles(
   formToRemove.appendChild(btnRematch);
 
   btnRematch.addEventListener("click", () => {
-    playerRematchCoins.rematchCoins--;
-    delChatpvp();
-    putImgChat(
-      foundedPokemon,
-      `você encontrou um ${foundedPokemon.nome} tipo ${foundedPokemon.tipo}`
-    );
-    foundedPokemon.rematch++;
-    pokemonRematch.attack(foundedPokemon);
-    funChatRef(
-      mainPlayer,
-      chatreference.list,
-      chatreference.enemy,
-      pokemonRematch
-    );
-    formToRemove.removeChild(btnRematch);
+    if (foundedPokemon.rematch == 1) {
+      playerRematchCoins.rematchCoins--;
+      delChatpvp();
+      putImgChat(
+        foundedPokemon,
+        `você encontrou um ${foundedPokemon.nome} tipo ${foundedPokemon.tipo}`
+      );
+      foundedPokemon.rematch++;
+      pokemonRematch.attack(foundedPokemon);
+      funChatRef(
+        mainPlayer,
+        chatreference.list,
+        chatreference.enemy,
+        pokemonRematch
+      );
+      formToRemove.removeChild(btnRematch);
+    } else {
+      alert("esse pokemon não é elegivel para revanche");
+      if (formToRemove.children[idForFormat]) {
+        formToRemove.removeChild(btnRematch);
+      }
+    }
   });
   for (var i = 40; i >= 0; i--) {
     btnRematch.textContent = `Revanche (${i})`;
+    if (systemStatus.rematchStatus > 1) {
+      break;
+    }
     await new Promise((r) => setTimeout(r, 1000));
   }
+  systemStatus.rematchStatus = 0;
   if (formToRemove.children[idForFormat]) {
     formToRemove.removeChild(btnRematch);
   }

@@ -15,13 +15,19 @@ let systemStatus = {
   formBattles: 0,
   type: null,
   rematchStatus: 0,
+  NpcAtual: undefined,
+  rematchButton: undefined,
 };
 //
-let npcChoosed = undefined;
+let npcGenerate = undefined;
 let foundedPokemon = undefined;
 
+//npcs abaixo
+let npcEletric = NpcManagement(0);
+let npcAquatic = NpcManagement(1);
+let npcFire = NpcManagement(2);
 //
-/* insertPokemon(mainPlayer, [new Pokemon()]); */
+let npcsList = [npcEletric, npcAquatic, npcFire];
 
 btnPrPA.addEventListener("click", () => {
   //
@@ -185,6 +191,8 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
         updatePokemonListBattle("slcPmBtid");
       } else if (systemStatus.formBattles == 1) {
         updatePokemonListBattle("selectPokemonsByType");
+      } else if (systemStatus.formBattles == 2) {
+        updatePokemonListBattle("selectPokemonsNpc");
       }
     } else {
       const putonchat = document.createElement("div");
@@ -260,6 +268,13 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
         );
 
         //
+      } else if (systemStatus.formBattles == 2) {
+        rematchRandomBattles(
+          player,
+          ChoosePokemonForRematch,
+          PvpNpcs,
+          "BtnRematchform3"
+        );
       }
     } else {
       foundedPokemon = undefined;
@@ -268,13 +283,20 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
     foundedPokemon = undefined;
   }
   console.log(systemStatus.type, "current form");
+  /* if (systemStatus.rematchStatus > 0) {
+    systemStatus.rematchStatus = 0;
+  } */
   systemStatus.stop = 0;
   systemStatus.run = 0;
   if (systemStatus.formBattles == 0) {
     btnPrPA.textContent = "Recolher e limpar";
   } else if (systemStatus.formBattles == 1) {
-    let recolhertSecondForm = document.querySelector("#backAllTypesBattle");
-    recolhertSecondForm.textContent = "Voltar e limpar";
+    let recolhertSecondForm = (document.querySelector(
+      "#backAllTypesBattle"
+    ).textContent = "Voltar e limpar");
+  } else if (systemStatus.formBattles == 2) {
+    let recolhertThirdForm = (document.querySelector("#backNpc").textContent =
+      "Voltar e limpar");
   }
   systemStatus.type = null;
   return;
@@ -289,7 +311,6 @@ async function rematchRandomBattles(
 ) {
   systemStatus.rematchStatus = 1;
   //set the form for rename the button
-  console.log(foundedPokemon, foundedPokemon.rematch, "rematch pokemon");
 
   let btnRematch = document.createElement("button");
   btnRematch.id = idForFormat;
@@ -299,10 +320,19 @@ async function rematchRandomBattles(
     if (foundedPokemon.rematch == 1) {
       playerRematchCoins.rematchCoins--;
       delChatpvp();
-      putImgChat(
-        foundedPokemon,
-        `você encontrou um ${foundedPokemon.nome} tipo ${foundedPokemon.tipo}`
-      );
+      //aqui
+      if (systemStatus.formBattles == 2) {
+        npcOnChatBattle(
+          npcsList[systemStatus.NpcAtual],
+          foundedPokemon,
+          "Pronto Rra Revanche ?"
+        );
+      } else {
+        putImgChat(
+          foundedPokemon,
+          `você encontrou um ${foundedPokemon.nome} tipo ${foundedPokemon.tipo}`
+        );
+      }
       foundedPokemon.rematch++;
       pokemonRematch.attack(foundedPokemon);
       funChatRef(
@@ -312,11 +342,13 @@ async function rematchRandomBattles(
         pokemonRematch
       );
       formToRemove.removeChild(btnRematch);
+      systemStatus.rematchStatus = 2;
     } else {
       alert("esse pokemon não é elegivel para revanche");
       if (formToRemove.children[idForFormat]) {
         formToRemove.removeChild(btnRematch);
       }
+      systemStatus.rematchStatus = 2;
     }
   });
   for (var i = 40; i >= 0; i--) {
@@ -326,7 +358,9 @@ async function rematchRandomBattles(
     }
     await new Promise((r) => setTimeout(r, 1000));
   }
+
   systemStatus.rematchStatus = 0;
+  console.log(systemStatus.rematchStatus, "rematch working");
   if (formToRemove.children[idForFormat]) {
     formToRemove.removeChild(btnRematch);
   }
@@ -465,4 +499,42 @@ function updatePokemonListBattle(idOfSlect) {
     selectPokemons.appendChild(opcSlcPmBt);
   }
   //
+}
+function npcOnChatBattle(npc = "", spcPokemon = "", text = "", bigger = "") {
+  let divNpc = document.createElement("div");
+  divNpc.id = "NpcImgChat";
+  divNpc.classList.add("divChPvp");
+  //label
+  let LabelNpcChat = document.createElement("label");
+  LabelNpcChat.classList.add("divChPvp");
+  LabelNpcChat.for = "imgGotNpc";
+  LabelNpcChat.id = "lblNpcSay";
+  /* LabelNpcChat.textContent = text; */
+  //img of npc
+  let imgfornpc = document.createElement("img");
+  imgfornpc.classList.add("divChPvp");
+  if (!bigger) {
+    imgfornpc.id = "imgGotNpc";
+  } else {
+    imgfornpc.id = "imgGotNpc2";
+  }
+  imgfornpc.src = `./imagens/${npc.nome}.png`;
+  //img of pokemon
+  let imgforNpcPokemon = document.createElement("img");
+  imgforNpcPokemon.classList.add("divChPvp");
+
+  imgforNpcPokemon.id = "imgGotPkmOfNpc";
+
+  if (spcPokemon) {
+    imgforNpcPokemon.src = `./imagens/${spcPokemon.nome}.png`;
+  } else {
+    imgforNpcPokemon.src = `./imagens/${npc.forBattle[0].nome}.png`;
+  }
+  //appends
+
+  divNpc.appendChild(imgfornpc);
+  divNpc.appendChild(imgforNpcPokemon);
+  divNpc.appendChild(LabelNpcChat);
+  PvpChat.appendChild(divNpc);
+  labelChangerForNpc(divNpc, LabelNpcChat, text);
 }

@@ -80,6 +80,7 @@ class Pokemon {
     this.tipo = tipo ? tipo : nome ? tipokem(nome) : tipo1;
     this.nivel = parseInt(nivel);
     this.life = this.nivel * 6;
+    this.Played = 0;
     this.damage = () => {
       const randomico = Math.floor(Math.random() * 10);
       if (randomico >= 7) {

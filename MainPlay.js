@@ -59,21 +59,6 @@ let pokemonObj = {
   nivel: "",
 };
 
-function insertPokemon(player1, pokemon) {
-  if (Array.isArray(pokemon) == true) {
-    //
-
-    for (var i = 0; i < pokemon.length; i++) {
-      pokemon[i].player = player1;
-      player1.pokemons.push(pokemon[i]);
-    }
-  } else {
-    pokemon.player = "";
-    pokemon.player = player1;
-    player1.pokemons.push(pokemon);
-  }
-}
-
 butao.addEventListener("click", (e) => {
   e.preventDefault();
   if (nme.value && idade.value) {
@@ -125,4 +110,59 @@ function showpks(p) {
     selcpokes.appendChild(ini);
   }
   p.unshift(g);
+}
+
+function insertPokemon(player1, pokemon) {
+  if (Array.isArray(pokemon) == true) {
+    //
+
+    for (var i = 0; i < pokemon.length; i++) {
+      pokemon[i].player = player1;
+      if (player1.Npc) {
+        player1.combate.push(pokemon[i]);
+      } else {
+        player1.pokemons.push(pokemon[i]);
+      }
+    }
+  } else {
+    pokemon.player = "";
+    pokemon.player = player1;
+    if (player1.Npc) {
+      player1.combate.push(pokemon);
+    } else {
+      player1.pokemons.push(pokemon);
+    }
+  }
+}
+
+//
+
+function generateNpcFull(tipo) {
+  let nome;
+  let listOfinsert;
+  if (tipo == 0) {
+    nome = "Volkner";
+    listOfinsert = generatePokemonArray(tipo);
+  } else if (tipo == 1) {
+    nome = "Misty";
+    listOfinsert = generatePokemonArray(tipo);
+  } else if (tipo == 2) {
+    nome = "Kabu";
+    listOfinsert = generatePokemonArray(tipo);
+  }
+
+  let NpcReturn = new NPCplayer(nome);
+
+  insertPokemon(NpcReturn, listOfinsert);
+  return NpcReturn;
+  //
+}
+function generatePokemonArray(number) {
+  let listToReturn = [];
+  for (var i = 1; i < listadospoke[number].length; i++) {
+    listToReturn.push(new Pokemon(listadospoke[number][i]));
+    //
+  }
+
+  return listToReturn;
 }

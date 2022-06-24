@@ -141,3 +141,32 @@ function retornarIMG(nm, id = "", clas = "") {
   funImg.src = `./imagens/${nm}.png`;
   return funImg;
 }
+function NpcManagement(number = "") {
+  let ids;
+  if (number == 0) {
+    ids = ["imgfrontBattlePokemonE", "UpdatePokemonNpcE"];
+  } else if (number == 1) {
+    ids = ["imgfrontBattlePokemonA", "UpdatePokemonNpcA"];
+  } else if (number == 2) {
+    ids = ["imgfrontBattlePokemonF", "UpdatePokemonNpcF"];
+  }
+  let npcGen = generateNpcFull(number);
+  listChanger(npcGen);
+  updateNPCFrontBattle(npcGen, ids);
+  return npcGen;
+}
+
+async function updateNPCFrontBattle(objecto, ids = "") {
+  let [imgPokemon, timerChange] = ids;
+  let imgchng = document.querySelector(`#${imgPokemon}`);
+  imgchng.src = `./imagens/${objecto.forBattle[0].nome}.png`;
+  while (true) {
+    await new Promise((r) => setTimeout(r, 100));
+    //
+    document.querySelector(`#${timerChange}`).textContent = `novo Pokemon em :
+      ${objecto.timeToChange} s`;
+    if (objecto.timeToChange == 1) {
+      imgchng.src = `./imagens/${objecto.forBattle[0].nome}.png`;
+    }
+  }
+}

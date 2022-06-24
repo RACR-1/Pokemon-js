@@ -183,9 +183,6 @@ class Player {
           a.push(inn);
           return a;
         }
-      } else {
-        a.push(new Pokemon());
-        return a;
       }
     }
   }
@@ -196,16 +193,21 @@ class NPCplayer extends Player {
     const nomes = ["João", "Jose", "Gilherme", "Rafael"];
     super(nome, idade, pokemons);
     let a = [];
+    let b = [];
+    let timeToChange = 0;
     testarpok(pokemons);
     if (nome) {
       this.nome = nome;
     } else {
       this.nome = " NPC " + nomes[Math.floor(Math.random() * nomes.length)];
     }
+    this.Npc = "Npc";
+    this.idade = idade ? idade : 20;
     this.combate = a;
-    /* Array.isArray(pokemons) == true
-        ? pokemons[Math.floor(Math.random() * pokemons.length)]
-        : pokemons; */
+    this.forBattle = b;
+    this.timeToChange = timeToChange;
+    /* listChanger(this.combate, this.forBattle, this.timeToChange); */
+    //
     function testarpok(inn) {
       if (inn) {
         if (Array.isArray(inn) == true) {
@@ -215,10 +217,39 @@ class NPCplayer extends Player {
           a.push(inn);
           return a;
         }
-      } else {
-        a.push(new Pokemon());
-        return a;
       }
     }
+  }
+}
+
+async function listChanger(objeto) {
+  while (true) {
+    let stuckhere = [];
+    if (objeto.forBattle.length > 0) {
+      let takeOut = objeto.forBattle.pop();
+      if (stuckhere.length > 0) {
+        stuckhere.pop();
+      }
+      stuckhere.push(takeOut);
+    }
+
+    let insert =
+      objeto.combate[Math.floor(Math.random() * objeto.combate.length)];
+
+    let indexPosition = objeto.combate.indexOf(insert);
+    let item = objeto.combate.splice(indexPosition, 1);
+
+    objeto.forBattle.push(item[0]);
+    if (stuckhere.length > 0) {
+      objeto.combate.push(stuckhere[0]);
+    }
+
+    //insert the pokemon here
+
+    for (var i = 60; i > 0; i--) {
+      await new Promise((r) => setTimeout(r, 1000));
+      objeto.timeToChange = i;
+    }
+    objeto.forBattle[0].Played = 0;
   }
 }

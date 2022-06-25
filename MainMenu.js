@@ -7,6 +7,7 @@ const btnBatalhar = document.querySelector("#btnBatalhar");
 const btnAutor = document.querySelector("btnAutoria");
 const btnsair = document.querySelector("btnSair");
 const btnBackMain = document.querySelector("#btnBackMain");
+const conteudo = document.querySelector(".conteudo");
 //
 
 //
@@ -67,27 +68,27 @@ async function updateStatusLabel(mPlayer, autoRefres = "") {
     }
   }
 }
-butao.addEventListener("click", () => {
-  /* updateStatusLabel(mainPlayer); */
-});
+/* butao.addEventListener("click", () => {
+  updateStatusLabel(mainPlayer);
+}); */
 
 btnMostrarPokemons.addEventListener("click", () => {
-  const CPtest = document.querySelectorAll("#lblCP");
+  /* const CPtest = document.querySelectorAll("#lblCP"); */
 
-  if (CPtest.length >= 1) {
+  /* if (CPtest.length >= 1) {
     FunCPeD("", divMTP, "lblCP");
-  }
+  } */
   btnEcP.id = "btnEcP";
   btnEcP.textContent = "Recolher";
   divMTP.appendChild(btnEcP);
-  FunCPeD(mainPlayer.pokemons, divMTP, "");
+  FunCPeD(mainPlayer.pokemons, conteudo, "");
 });
 
 btnEcP.addEventListener("click", () => {
   //
 
   divMTP.removeChild(btnEcP);
-  FunCPeD("", divMTP, "lblCP");
+  FunCPeD("", conteudo, "lblCP");
 });
 
 btnBatalhar.addEventListener("click", () => {
@@ -98,12 +99,16 @@ btnBackMain.addEventListener("click", () => {
   /* div2.style.display = "";
   div3.style.display = "none"; */
 });
+//voltar aqui
 
 function FunCPeD(p = "", dApd = "", idDel = "") {
   if (p && dApd) {
     for (i = 0; i < p.length; i++) {
       const lblFunCPeD = document.createElement("label");
+      const divimgsPkm = document.createElement("div");
+      divimgsPkm.classList.add("conteudo");
       lblFunCPeD.id = "lblCP";
+      lblFunCPeD.classList.add("card");
       lblFunCPeD.innerHTML = `<h4>nome: ${p[i].nome} | Tipo: ${p[i].tipo} </h4>`;
       const funCPeRtI = funRtI(p[i].nome);
       lblFunCPeD.appendChild(funCPeRtI);

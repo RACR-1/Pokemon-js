@@ -44,11 +44,11 @@ backfirstForm.addEventListener("click", () => {
 battlePokemonByTypes.addEventListener("click", () => {
   backfirstForm.textContent = "Parar batalha";
 
-  console.log(mainPlayer.pokemons[ChosenPokemontypes.value]);
-  systemStatus.type = 1;
   let chooseValue = ChosenPokemontypes.value;
   if (foundedPokemon) {
     if (systemStatus.run == 0) {
+      console.log(mainPlayer.pokemons[ChosenPokemontypes.value]);
+      systemStatus.type = 1;
       mainPlayer.pokemons[chooseValue].attack(foundedPokemon);
       funChatRef(
         mainPlayer,
@@ -82,19 +82,27 @@ firePokemons.addEventListener("click", () => {
 
 function intoButtonsOfType(tipo) {
   if (systemStatus.run == 0) {
-    if (divOpcoes.children["BtnRematch"]) {
+    if (/* divOpcoes.children["BtnRematch"] */ systemStatus.rematchStatus > 0) {
       if (
         window.confirm(
           "Se você clicar nesse botão pedera sua chance de revanche."
         )
       ) {
-        document
+        /* document
           .querySelector(".PvpOpcoes")
-          .removeChild(document.querySelector("#BtnRematch"));
+          .removeChild(document.querySelector("#BtnRematch")); */
+        systemStatus.rematchStatus = 2;
+        if (PvpChat.children) {
+          delChatpvp();
+        }
+        if (foundedPokemon) {
+          foundedPokemon = undefined;
+        }
 
         if (PvpChat.firstChild) {
           backfirstForm.textContent = "Voltar e limpar";
         }
+
         systemStatus.formBattles = 1;
         if (tipo == 0) {
           labelTypePokemon.textContent = "Tipo Raio";
@@ -108,6 +116,12 @@ function intoButtonsOfType(tipo) {
       }
     } else {
       systemStatus.formBattles = 1;
+      if (PvpChat.children) {
+        delChatpvp();
+      }
+      if (foundedPokemon) {
+        foundedPokemon = undefined;
+      }
       if (tipo == 0) {
         labelTypePokemon.textContent = "Tipo Raio";
       } else if (tipo == 1) {
@@ -125,13 +139,16 @@ function battleByTypes(pokemonType) {
   divOpcoes.style.display = "none";
   PvpNpcs.style.display = "none";
   OpcsByType.style.display = "";
-
+  btnBackThird.textContent = "Voltar";
   //put the if here to verify which  div is on
 
   searchPokemoneByTypes.addEventListener("click", () => {
     if (!systemStatus.run) {
-      if (OpcsByType.children["BtnRematchform2"]) {
-        OpcsByType.removeChild(document.querySelector("#BtnRematchform2"));
+      if (
+        /* OpcsByType.children["BtnRematchform2"] */ systemStatus.rematchStatus >
+        0
+      ) {
+        systemStatus.rematchStatus = 2;
       }
 
       delChatpvp();

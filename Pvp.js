@@ -100,8 +100,8 @@ function procurarPk(imgchose = "") {
 
   btnProcurar.addEventListener("click", () => {
     const checkRematch = document.querySelector("#BtnRematch");
-    if (checkRematch) {
-      divOpcoes.removeChild(checkRematch);
+    if (systemStatus.rematchStatus > 0) {
+      systemStatus.rematchStatus = 2;
     }
     if (systemStatus.run == 0) {
       delChatpvp();
@@ -239,7 +239,7 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
       }
       PvpChat.appendChild(putonchat);
     }
-    await new Promise((r) => setTimeout(r, 800));
+    /* await new Promise((r) => setTimeout(r, 800)); */
   }
   // rematch
   /* if (systemStatus.formBattles == 0) {
@@ -288,6 +288,8 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
   } */
   systemStatus.stop = 0;
   systemStatus.run = 0;
+  chatreference.battle_Status.end = 1;
+
   if (systemStatus.formBattles == 0) {
     btnPrPA.textContent = "Recolher e limpar";
   } else if (systemStatus.formBattles == 1) {
@@ -381,7 +383,7 @@ function funFilterLuckybyType(listaPlyer, arrayTakeOf) {
     group.push(listaPlyer[i].nome);
   }
   let filt = arrayTakeOf.filter((e) => {
-    return group.indexOf(e) < 0;
+    return group.indexOf(e) === -1;
   });
 
   filt.shift();
@@ -537,4 +539,34 @@ function npcOnChatBattle(npc = "", spcPokemon = "", text = "", bigger = "") {
   divNpc.appendChild(LabelNpcChat);
   PvpChat.appendChild(divNpc);
   labelChangerForNpc(divNpc, LabelNpcChat, text);
+}
+
+function BackmainMenuFunc() {
+  //
+  if (systemStatus.rematchStatus > 0) {
+    systemStatus.rematchStatus = 2;
+  }
+  if (systemStatus.run > 0) {
+    systemStatus.stop = 1;
+  }
+  if (PvpChat.children) {
+    delChatpvp();
+  }
+
+  if (checkselc1 || checkBtnpronto || checkProcurar) {
+    divOpcoes.removeChild(checkselc1);
+
+    divOpcoes.removeChild(checkBtnpronto);
+    divOpcoes.removeChild(checkProcurar);
+    divOpcoes.removeChild(checkopcimg);
+
+    btnPrPA.textContent = "Procurar pokemon aleatorio";
+  }
+  divOpcoes.style.display = "";
+  PvpNpcs.style.display = "none";
+  OpcsByType.style.display = "none";
+  dive.style.display = "none";
+  div2.style.display = "";
+  div3.style.display = "none";
+  //
 }

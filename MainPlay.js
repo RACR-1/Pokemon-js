@@ -65,8 +65,8 @@ butao.addEventListener("click", (e) => {
     mainPlayer = new Player(nme.value, idade.value, []);
     let choosePokemon = new Pokemon(selcpokes.value, selctipos.value);
     insertPokemon(mainPlayer, [choosePokemon, new Pokemon()]);
-    /* dive.style.display = "none";
-    div2.style.display = ""; */
+    dive.style.display = "none";
+    div2.style.display = "";
   } else {
     const alerta = document.createElement("label");
     alerta.id = "alerta";

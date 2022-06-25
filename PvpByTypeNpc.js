@@ -1,12 +1,42 @@
 const btnNpcEletric = document.querySelector("#btnBtEl");
 const btnNpcfire = document.querySelector("#btnBtFo");
 const btnNpcAquatic = document.querySelector("#btnBtAg");
+const btnBackThird = document.querySelector("#backNpc");
 //btnBtAg
 const labelNpc = document.querySelector(".PvpOpcoesNpc #labelChooseType");
 const ChosenPokemonNpcs = document.querySelector("#selectPokemonsNpc");
 const batalharNpc = document.querySelector("#battleNpc");
 //btnBtEl
 PvpNpcs;
+
+btnBackThird.addEventListener("click", () => {
+  //fazer o botão de volta e verificações
+  if (systemStatus.run > 0) {
+    systemStatus.stop = 1;
+    btnBackThird.textContent = "Voltar e limpar";
+  } else {
+    if (systemStatus.rematchStatus == 1) {
+      if (window.confirm("Você Perdera sua Revanche se continuar") == true) {
+        systemStatus.rematchStatus = 2;
+        BackMainThird();
+      }
+    } else {
+      BackMainThird();
+    }
+  }
+});
+
+function BackMainThird() {
+  if (PvpChat.children) {
+    delChatpvp();
+  }
+  btnBackThird.textContent = "Voltar";
+  divOpcoes.style.display = "";
+
+  OpcsByType.style.display = "none";
+
+  PvpNpcs.style.display = "none";
+}
 
 btnNpcEletric.addEventListener("click", () => {
   initiation(0);
@@ -26,6 +56,7 @@ batalharNpc.addEventListener("click", () => {
   if (foundedPokemon) {
     if (!foundedPokemon.Played == 1) {
       if (systemStatus.run == 0) {
+        btnBackThird.textContent = "Parar Batalha";
         mainPlayer.pokemons[ch].attack(foundedPokemon);
         funChatRef(
           mainPlayer,
@@ -78,7 +109,7 @@ function firstInitiation(tipo) {
   if (PvpChat.children) {
     delChatpvp();
   }
-
+  backfirstForm.textContent = "Voltar";
   divOpcoes.style.display = "none";
 
   OpcsByType.style.display = "none";
@@ -133,5 +164,3 @@ async function labelChangerForNpc(div = "", object = "", texto = "") {
     }
   }
 }
-
-function extractPokemonNpc() {}

@@ -10,10 +10,11 @@ const idade = document.querySelector("#idad");
 const maindiv = document.querySelector(".main");
 const div2 = document.querySelector(".num2");
 const div3 = document.querySelector(".num3");
-
-/* div2.style.display = "none";
-div3.style.display = "none"; */
-
+const div4 = document.querySelector(".num4");
+//btnSair
+div2.style.display = "none";
+div3.style.display = "none";
+div4.style.display = "none";
 let pvpDiv = "";
 //criar outro arquivo pras cidades e pvp
 /* labelLista.style.display = "none";
@@ -64,9 +65,10 @@ butao.addEventListener("click", (e) => {
   if (nme.value && idade.value) {
     mainPlayer = new Player(nme.value, idade.value, []);
     let choosePokemon = new Pokemon(selcpokes.value, selctipos.value);
-    insertPokemon(mainPlayer, [choosePokemon, new Pokemon()]);
+    insertPokemon(mainPlayer, [choosePokemon]);
     dive.style.display = "none";
     div2.style.display = "";
+    online = 1;
   } else {
     const alerta = document.createElement("label");
     alerta.id = "alerta";

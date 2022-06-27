@@ -17,6 +17,7 @@ let systemStatus = {
   rematchStatus: 0,
   NpcAtual: undefined,
   rematchButton: undefined,
+  currentyPokemon: undefined,
 };
 //
 let npcGenerate = undefined;
@@ -26,6 +27,30 @@ let foundedPokemon = undefined;
 let npcEletric = NpcManagement(0);
 let npcAquatic = NpcManagement(1);
 let npcFire = NpcManagement(2);
+/* startandStopNpcs(); */
+
+/* async function startandStopNpcs() {
+  while (true) {
+    if (online === 1) {
+      if (!npcEletric) {
+        console.log("se não tiver NPC e for 1");
+        npcEletric = NpcManagement(0);
+        npcAquatic = NpcManagement(1);
+        npcFire = NpcManagement(2);
+      }
+    }
+    if (online === 0) {
+      if (npcEletric) {
+        console.log("se tiver NPC e for 0");
+        npcEletric = "";
+        npcAquatic = "";
+        npcFire = "";
+      }
+    }
+    await new Promise((r) => setTimeout(r, 1000));
+  }
+  //
+} */
 //
 let npcsList = [npcEletric, npcAquatic, npcFire];
 
@@ -33,6 +58,7 @@ btnPrPA.addEventListener("click", () => {
   //
 
   if (systemStatus.run == 0) {
+    systemStatus.currentyPokemon = "";
     let checkselc1 = document.querySelector("#slcPmBtid");
     let checkBtnpronto = document.querySelector("#btnPkmPro");
     let checkProcurar = document.querySelector("#btnProcurar");
@@ -108,7 +134,6 @@ function procurarPk(imgchose = "") {
 
       foundedPokemon = new Pokemon(FunAllLucky([]), "", undefined, "");
 
-      console.log(foundedPokemon.rematch, "search log rematch");
       putImgChat(
         foundedPokemon,
         `você encontrou um ${foundedPokemon.nome} tipo ${foundedPokemon.tipo}`
@@ -170,7 +195,7 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
     if (chatRef[i].Loose) {
       /* resultLooseRefChat++; */
       foundedPokemon.rematch++;
-      console.log(ChoosePokemonForRematch.rematch, "loose result rematch");
+
       /* updateStatusLabel(player); */
       const putonchat = document.createElement("div");
       putonchat.classList.add("divChPvp");
@@ -185,7 +210,7 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
       putonchat.id = "ChPvpWin";
       putonchat.textContent = `Você Venceu contra ${oponente[0].nome} Você ganhou um pokemon aleatorio que ainda não tem`;
       PvpChat.appendChild(putonchat);
-      funDarPkm(player, "", "");
+      funDarPkm(player, "", systemStatus.currentyPokemon);
       //
       if (systemStatus.formBattles == 0) {
         updatePokemonListBattle("slcPmBtid");
@@ -239,7 +264,7 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
       }
       PvpChat.appendChild(putonchat);
     }
-    /* await new Promise((r) => setTimeout(r, 800)); */
+    await new Promise((r) => setTimeout(r, 800));
   }
   // rematch
   /* if (systemStatus.formBattles == 0) {
@@ -251,7 +276,6 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
   if (foundedPokemon.rematch == 1) {
     if (player.rematchCoins) {
       if (systemStatus.formBattles == 0) {
-        console.log(ChoosePokemonForRematch, "contagem rematch");
         rematchRandomBattles(
           player,
           ChoosePokemonForRematch,
@@ -259,7 +283,6 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
           "BtnRematch"
         );
       } else if (systemStatus.formBattles == 1) {
-        console.log("into if rematch invoke function");
         rematchRandomBattles(
           player,
           ChoosePokemonForRematch,
@@ -282,7 +305,7 @@ async function funChatRef(player, chatRef, oponente, ChoosePokemonForRematch) {
   } else {
     foundedPokemon = undefined;
   }
-  console.log(systemStatus.type, "current form");
+
   /* if (systemStatus.rematchStatus > 0) {
     systemStatus.rematchStatus = 0;
   } */
@@ -327,7 +350,8 @@ async function rematchRandomBattles(
         npcOnChatBattle(
           npcsList[systemStatus.NpcAtual],
           foundedPokemon,
-          "Pronto Rra Revanche ?"
+          "Pronto Rra Revanche ?",
+          1
         );
       } else {
         putImgChat(
@@ -362,7 +386,7 @@ async function rematchRandomBattles(
   }
 
   systemStatus.rematchStatus = 0;
-  console.log(systemStatus.rematchStatus, "rematch working");
+
   if (formToRemove.children[idForFormat]) {
     formToRemove.removeChild(btnRematch);
   }
@@ -382,13 +406,14 @@ function funFilterLuckybyType(listaPlyer, arrayTakeOf) {
   for (var i = 0; i < listaPlyer.length; i++) {
     group.push(listaPlyer[i].nome);
   }
+  console.log(arrayTakeOf, "to take of");
   let filt = arrayTakeOf.filter((e) => {
     return group.indexOf(e) === -1;
   });
 
   filt.shift();
 
-  if (filt.length >= 0) {
+  if (filt.length > 0) {
     return filt[Math.floor(Math.random() * filt.length)];
   } else {
     return;
@@ -396,40 +421,44 @@ function funFilterLuckybyType(listaPlyer, arrayTakeOf) {
 }
 
 function funDarPkm(player, espc = "", tipo = "") {
-  if (tipo == "fogo") {
-    let autoName = funFilterLuckybyType(player.pokemons, listadospoke[2]);
-
-    let givePkm = new Pokemon(autoName);
-    insertPokemon(mainPlayer, givePkm);
-
-    putImgChat(givePkm);
-  } else if (tipo == "agua") {
-    let autoName = funFilterLuckybyType(player.pokemons, listadospoke[1]);
-    let givePkm = new Pokemon(autoName);
-    insertPokemon(mainPlayer, givePkm);
-
-    putImgChat(givePkm);
-  } else if (tipo == "eletrico") {
-    let autoName = funFilterLuckybyType(player.pokemons, listadospoke[0]);
-    let givePkm = new Pokemon(autoName);
-    insertPokemon(mainPlayer, givePkm);
-
-    putImgChat(givePkm);
+  if ((player && tipo == 0, 1, 2)) {
+    console.log("player com tipo", tipo);
+    AutomateGenerate(player.pokemons, tipo);
   } else if (player && espc) {
     let givePkm = new Pokemon(espc);
     insertPokemon(mainPlayer, givePkm);
     putImgChat(givePkm);
   } else if (player && espc == "" && tipo == "") {
-    let autoName = FunAllLucky(player.pokemons);
+    console.log("player sem tipo", tipo);
+    AutomateGenerate(player);
+  }
+  function AutomateGenerate(pokemonsList, typo = "") {
+    let autoName;
 
-    let givePkm = new Pokemon(autoName);
+    if (typeof typo === "number") {
+      console.log("Dentro de filter liuck Typo");
+      autoName = funFilterLuckybyType(pokemonsList, listadospoke[typo]);
+    } else {
+      console.log("Dentro De all Lucky sem typo");
+      autoName = FunAllLucky(pokemonsList);
+    }
+    console.log(systemStatus.currentyPokemon, typo, "atual pokemon");
 
-    insertPokemon(player, new Pokemon(autoName));
-    putImgChat(givePkm);
+    if (autoName) {
+      let givePkm = new Pokemon(autoName);
+      insertPokemon(mainPlayer, givePkm);
+      putImgChat(givePkm);
+    } else {
+      if ((typo === 0, 1, 2)) {
+        putImgChat("", "Você possui todos os Pokemons desse Tipo");
+      } else {
+        putImgChat("", "Você possui todos os Pokemons do jogo");
+      }
+    }
   }
 }
 
-function putImgChat(pokemon, text = "") {
+function putImgChat(pokemon = "", text = "") {
   let divpkwin = document.createElement("div");
   divpkwin.classList.add("divChPvp");
   divpkwin.id = "NewPkm";
@@ -450,8 +479,10 @@ function putImgChat(pokemon, text = "") {
 
   divpkwin.appendChild(lblWinPk);
   //
-  let imgWinPk = retornarIMG(pokemon.nome, "imgGotPkm", "divChPvp");
-  divpkwin.appendChild(imgWinPk);
+  if (pokemon) {
+    let imgWinPk = retornarIMG(pokemon.nome, "imgGotPkm", "divChPvp");
+    divpkwin.appendChild(imgWinPk);
+  }
   PvpChat.appendChild(divpkwin);
 }
 

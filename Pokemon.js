@@ -183,25 +183,26 @@ class Pokemon {
             //put the while here
 
             if (this.player) {
-              let battleResult1 = {
+              let battleResult = {
                 result: `Vitoria [${this.nome} - ${this.tipo}] contra [${champion.nome} - ${champion.tipo}] `,
                 opponent: champion.player
                   ? champion.player.nome
                   : champion.nome,
                 conditional: 1,
+                pokemons: [this.nome, champion.nome],
               };
               /*  this.player.games.push(battleResult); */
-              pushGametoPlayer(this.player, battleResult1);
+              pushGametoPlayer(this.player, battleResult);
             }
-            console.log("test after my loose");
+
             if (champion.player) {
-              console.log("teste into Oponent loose");
               let battleResult = {
                 result: `Derrota [${champion.nome} - ${champion.tipo}] contra [${this.nome} - ${this.tipo}] de ${this.player.nome}`,
                 opponent: this.player.nome,
                 conditional: 0,
+                pokemons: [this.nome, champion.nome],
               };
-              console.log(battleResult, "erro Battle Resoult oponent");
+
               /* champion.player.games.push(battleResult); */
               pushGametoPlayer(champion.player, battleResult);
             }
@@ -241,24 +242,25 @@ class Pokemon {
                 result: `Vitoria [${champion.nome} - ${champion.tipo}] contra [${this.nome} - ${this.tipo}] de ${this.player.nome}`,
                 opponent: this.player.nome,
                 conditional: 1,
+                pokemons: [this.nome, champion.nome],
               };
-              console.log(battleResult, "erro Battle Resoult Oponent");
+
               /* champion.player.games.push(battleResult); */
               pushGametoPlayer(champion.player, battleResult);
             }
-            console.log("test after my loose");
+
             if (this.player) {
-              console.log("teste into this player loose");
-              let battleResult1 = {
+              let battleResult = {
                 result: `Derrota [${this.nome} - ${this.tipo}] contra [${champion.nome} - ${champion.tipo}] `,
                 opponent: champion.player
                   ? champion.player.nome
                   : champion.nome,
                 conditional: 0,
+                pokemons: [this.nome, champion.nome],
               };
-              console.log(battleResult1, "erro Battle Resoult my");
+
               /* this.player.games.push(battleResult); */
-              pushGametoPlayer(this.player, battleResult1);
+              pushGametoPlayer(this.player, battleResult);
             }
 
             break;
@@ -297,24 +299,25 @@ class Pokemon {
                 result: `Vitoria [${champion.nome} - ${champion.tipo}] contra [${this.nome} - ${this.tipo}] de ${this.player.nome}`,
                 opponent: this.player.nome,
                 conditional: 1,
+                pokemons: [this.nome, champion.nome],
               };
-              console.log(battleResult, "erro Battle Resoult Oponent");
+
               /* champion.player.games.push(battleResult); */
               pushGametoPlayer(champion.player, battleResult);
             }
-            console.log("test after oponent win");
+
             if (this.player) {
-              console.log("teste into this player loose");
-              let battleResult1 = {
+              let battleResult = {
                 result: `Derrota [${this.nome} - ${this.tipo}] contra [${champion.nome} - ${champion.tipo}] `,
                 opponent: champion.player
                   ? champion.player.nome
                   : champion.nome,
                 conditional: 0,
+                pokemons: [this.nome, champion.nome],
               };
-              console.log(battleResult1, "erro Battle Resoult my ");
+
               /*  this.player.games.push(battleResult); */
-              pushGametoPlayer(this.player, battleResult1);
+              pushGametoPlayer(this.player, battleResult);
             }
 
             break;
@@ -350,26 +353,27 @@ class Pokemon {
             chatreference.list.push({ Win: "win" });
 
             if (this.player) {
-              let battleResult1 = {
+              let battleResult = {
                 result: `Vitoria [${this.nome} - ${this.tipo}] contra [${champion.nome} - ${champion.tipo}] `,
                 opponent: champion.player
                   ? champion.player.nome
                   : champion.nome,
                 conditional: 1,
+                pokemons: [this.nome, champion.nome],
               };
-              console.log(battleResult1, "erro Battle Resoult my");
+
               /* this.player.games.push(battleResult); */
-              pushGametoPlayer(this.player, battleResult1);
+              pushGametoPlayer(this.player, battleResult);
             }
-            console.log("test after my win");
+
             if (champion.player) {
-              console.log("teste into oponent loose");
               let battleResult = {
                 result: `Derrota [${champion.nome} - ${champion.tipo}] contra [${this.nome} - ${this.tipo}] de ${this.player.nome}`,
                 opponent: this.player.nome,
                 conditional: 0,
+                pokemons: [this.nome, champion.nome],
               };
-              console.log(battleResult, "erro Battle Resoult Oponent");
+
               /* champion.player.games.push(battleResult); */
               pushGametoPlayer(champion.player, battleResult);
             }
@@ -386,7 +390,6 @@ class Pokemon {
       }
       //push game into player
       async function pushGametoPlayer(PlayerToPush, gameToPush) {
-        console.log(PlayerToPush.nome, "working");
         chatreference.battle_Status.much.push(
           chatreference.battle_Status.much.length
         );
@@ -396,12 +399,7 @@ class Pokemon {
           if (chatreference.battle_Status.end == 1) {
             loopBattle = false;
             PlayerToPush.games.push(gameToPush);
-            console.log(
-              PlayerToPush,
-              gameToPush,
-              PlayerToPush.nome,
-              "quebrado"
-            );
+
             chatreference.battle_Status.much.pop();
             /* chatreference.end = 0; */
             break;

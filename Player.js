@@ -223,6 +223,8 @@ class NPCplayer extends Player {
 }
 
 async function listChanger(objeto) {
+  let changed = 0;
+
   while (true) {
     let stuckhere = [];
     if (objeto.forBattle.length > 0) {
@@ -231,6 +233,7 @@ async function listChanger(objeto) {
         stuckhere.pop();
       }
       stuckhere.push(takeOut);
+      stuckhere[0].Played = 0;
     }
 
     let insert =
@@ -249,6 +252,24 @@ async function listChanger(objeto) {
     for (var i = 60; i > 0; i--) {
       await new Promise((r) => setTimeout(r, 1000));
       objeto.timeToChange = i;
+      if (online === 0) {
+        if (changed === 0) {
+          if (stuckhere.length > 0) {
+            stuckhere[0].Played = 0;
+          }
+          objeto.forBattle[0].Played = 0;
+          for (var c = 0; c < objeto.combate.length; c++) {
+            objeto.combate[c].Played = 0;
+            //
+          }
+          changed = 1;
+          while (online === 0) {
+            await new Promise((r) => setTimeout(r, 500));
+          }
+        }
+      } else {
+        changed = 0;
+      }
     }
     objeto.forBattle[0].Played = 0;
   }

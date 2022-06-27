@@ -23,12 +23,17 @@
 }
 
 .PvpOpcoes {
-  width: auto /* 130px */;
+  width: 170px;
+  height: auto;
+  border: 3px solid black;
+  position: absolute;
+  top: 100px;
+  /* width: auto ;
   height: auto;
   border: 3px solid black;
   position: absolute;
   top: 540px;
-  right: 1366px;
+  right: 1366px; */
 }
 .TerrenoEletricos {
   position: absolute;
@@ -166,7 +171,7 @@
   height: 210px;
   border: 3px solid black;
   position: absolute;
-  top: 550px;
+  top: 100px;
   /* padding: 1px 1px 1px 1px; */
 }
 
@@ -175,7 +180,7 @@
   height: 210px;
   border: 3px solid black;
   position: absolute;
-  top: 550px;
+  top: 100px;
 }
 
 #BtnRematchform3{
@@ -214,7 +219,7 @@
 
 /* Npc */
 #NpcImgChat {
-  /* background-color: rgb(47, 255, 0); */
+  /* background-color: rgb(60, 255, 0); */
   width: 600px;
   height: 200px;
   position: relative;
@@ -250,7 +255,8 @@
 }
 /* front of battle */
 #imgfrontBattle{
-  width: 60px;
+
+  width: 130px;
   height: auto;
   position: relative;
   right: center;
@@ -328,9 +334,10 @@
 .conteudo{
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content:left;
   align-items: center;
-  width: 100%;
+  width: 500%;
+ 
 }
 .card{
   background-color: #f1f1f1;
@@ -338,4 +345,64 @@
   margin: 10px;
   height: 200px;
   text-align: center;
+}
+
+.ContentWins{
+  display: flex;
+  flex-direction: row;
+  justify-content:left;
+  align-items:center;
+  width: 500%;
+ 
+}
+.cardwins{
+  background-color: #f1f1f1;
+  min-width: 550px;
+  margin: 10px;
+  height: 200px;
+  text-align: center;
+}
+
+#commentCode{
+  position: relative;
+  top: 16px;
+
+}
+#enemyPerson{
+  position: relative;
+  left:160px;
+  bottom:30px;
+  font-size: 17px;
+}
+#imgOponentGAmes{
+  width: 70px;
+  height: auto;
+  position: relative;
+  left:160px;
+  
+
+}
+#playerPokemonGames{
+  width:70px;
+  position: relative;
+  top: 23px;
+  right:120px;
+  
+}
+#enemyPokemonGames{
+  width:70px;
+  position: relative;
+  top: 23px;
+  left:170px;
+  b: rgba(201, 2, 2, 0.103);
+  a:rgba(3, 198, 13, 0.196);
+}
+.num4{
+  position: relative;
+  top:100px;
+}
+#BackFromAutor{
+  position: relative;
+  top: 23px;
+  right: 110px;
 }

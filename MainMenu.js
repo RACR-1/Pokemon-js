@@ -1,19 +1,25 @@
 const statusLabel = document.querySelector("#lblPId");
 
 //botoes principai
+const GamesDiv = document.querySelector(".ContentWins");
 const btnMostrarPokemons = document.querySelector("#btnShowAllPKS");
 const btnMostrarVitorias = document.querySelector("#btnShowWins");
 const btnBatalhar = document.querySelector("#btnBatalhar");
-const btnAutor = document.querySelector("btnAutoria");
-const btnsair = document.querySelector("btnSair");
+const btnAutor = document.querySelector("#btnAutoria");
 const btnBackMain = document.querySelector("#btnBackMain");
+const btnBackMainNPC = document.querySelector("#backMainMenuNpc");
+const btnBackMainTypes = document.querySelector("#typesBackMainMenu");
 const conteudo = document.querySelector(".conteudo");
+const backFromAutor = document.querySelector("#BackFromAutor");
+const outOfGame = document.querySelector("#btnSair");
 //
 
 //
 const btnEcP = document.createElement("button");
 //
 const divMTP = document.querySelector("#mostrarTodosPokemons");
+
+let online = 0;
 
 //
 function countGamesNumber(mPlayer, conditional = "") {
@@ -49,7 +55,13 @@ async function updateStatusLabel(mPlayer, autoRefres = "") {
       mPlayer.rematchCoins
     }] `;
   } else {
-    while (true) {
+    let loopControl = true;
+    while (loopControl) {
+      console.log("while status update");
+      /*  if (mainPlayer === undefined) {
+        statusLabel.innerText = "";
+        loopControl = false;
+      } */
       for (var i = 60; i > 0; i--) {
         //
         statusLabel.innerText = ` Nome:[${mPlayer.nome}]-Idade:[${
@@ -60,7 +72,12 @@ async function updateStatusLabel(mPlayer, autoRefres = "") {
           mPlayer.rematchCoins
         }] - [${mPlayer.rematchCoins > 4 ? "fullCoins" : i + "s"}]`;
         //
-        await new Promise((r) => setTimeout(r, 1000));
+        await new Promise((r) => setTimeout(r, 700));
+        if (!mainPlayer) {
+          statusLabel.innerText = "";
+          loopControl = false;
+          break;
+        }
       }
       if (mPlayer.rematchCoins < 5) {
         mPlayer.rematchCoins++;
@@ -72,12 +89,80 @@ async function updateStatusLabel(mPlayer, autoRefres = "") {
   updateStatusLabel(mainPlayer);
 }); */
 
-btnMostrarPokemons.addEventListener("click", () => {
-  /* const CPtest = document.querySelectorAll("#lblCP"); */
+function templateGameReturnCard(pokemon, result, opponent, conditional) {
+  let template = `
+          
+            <person id="enemyPerson"> Oponente : ${opponent}  </person>
+            <img id="imgOponentGAmes" src="./imagens/${opponent}.png" alt="">
+            <div id="commentCode">${result}</div>
+            <img src="./imagens/${pokemon[0]}.png" id="playerPokemonGames" alt="">
+            <img id="enemyPokemonGames" src="./imagens/${pokemon[1]}.png" alt="">
+          
+`;
+  const card = document.createElement("div");
+  card.classList.add("cardwins");
+  if (conditional === 0) {
+    card.style.backgroundColor = "rgba(201, 2, 2, 0.103)";
+  } else {
+    card.style.backgroundColor = "rgba(3, 198, 13, 0.196)";
+  }
+  card.innerHTML = template;
+  return card;
+}
 
-  /* if (CPtest.length >= 1) {
+outOfGame.addEventListener("click", () => {
+  dive.style.display = "";
+  div2.style.display = "none";
+  div3.style.display = "none";
+  div4.style.display = "none";
+  mainPlayer = undefined;
+  online = 0;
+});
+btnAutor.addEventListener("click", () => {
+  //
+  div2.style.display = "none";
+  div3.style.display = "none";
+  div4.style.display = "";
+});
+backFromAutor.addEventListener("click", () => {
+  //
+  div2.style.display = "";
+  div3.style.display = "none";
+  div4.style.display = "none";
+});
+//
+
+btnMostrarVitorias.addEventListener("click", () => {
+  //
+  if (GamesDiv.children.length > 0) {
+    btnMostrarVitorias.textContent = "Mostrar Jogos";
+    while (GamesDiv.firstChild) {
+      GamesDiv.removeChild(GamesDiv.firstChild);
+    }
+  } else {
+    if (mainPlayer.games.length > 0) {
+      btnMostrarVitorias.textContent = "Recolher";
+      for (var i = 0; i < mainPlayer.games.length; i++) {
+        let card = templateGameReturnCard(
+          mainPlayer.games[i].pokemons,
+          mainPlayer.games[i].result,
+          mainPlayer.games[i].opponent,
+          mainPlayer.games[i].conditional
+        );
+        GamesDiv.appendChild(card);
+      }
+    } else {
+      alert("Você ainda Não jogou");
+    }
+  }
+});
+
+btnMostrarPokemons.addEventListener("click", () => {
+  const CPtest = document.querySelectorAll("#lblCP");
+  console.log("Mostrar Pokemons");
+  if (CPtest.length >= 1) {
     FunCPeD("", divMTP, "lblCP");
-  } */
+  }
   btnEcP.id = "btnEcP";
   btnEcP.textContent = "Recolher";
   divMTP.appendChild(btnEcP);
@@ -92,13 +177,63 @@ btnEcP.addEventListener("click", () => {
 });
 
 btnBatalhar.addEventListener("click", () => {
-  /* div2.style.display = "none";
-  div3.style.display = ""; */
+  div2.style.display = "none";
+  div3.style.display = "";
+  if (GamesDiv.children.length > 0) {
+    btnMostrarVitorias.textContent = "Mostrar Jogos";
+    while (GamesDiv.firstChild) {
+      GamesDiv.removeChild(GamesDiv.firstChild);
+    }
+  }
+});
+btnBackMainTypes.addEventListener("click", () => {
+  funBackMainMenu();
+});
+btnBackMainNPC.addEventListener("click", () => {
+  funBackMainMenu();
 });
 btnBackMain.addEventListener("click", () => {
-  /* div2.style.display = "";
-  div3.style.display = "none"; */
+  funBackMainMenu();
 });
+function funBackMainMenu() {
+  if (systemStatus.run === 0) {
+  }
+  div2.style.display = "";
+  div3.style.display = "none";
+  divOpcoes.style.display = "";
+  OpcsByType.style.display = "none";
+  PvpNpcs.style.display = "none";
+  btnBackThird.textContent = "Voltar";
+  delChatpvp();
+
+  let recolhertSecondForm = (document.querySelector(
+    "#backAllTypesBattle"
+  ).textContent = "Voltar");
+
+  let recolhertThirdForm = (document.querySelector("#backNpc").textContent =
+    "Voltar");
+
+  let checkselc1 = document.querySelector(".PvpOpcoes #slcPmBtid");
+  let checkBtnpronto = document.querySelector(".PvpOpcoes #btnPkmPro");
+  let checkProcurar = document.querySelector(".PvpOpcoes #btnProcurar");
+  let checkopcimg = document.querySelector(".PvpOpcoes #chosePoke");
+  if (systemStatus.rematchStatus > 0) {
+    systemStatus.rematchStatus = 2;
+  }
+  if (checkselc1 || checkBtnpronto || checkProcurar) {
+    divOpcoes.removeChild(checkselc1);
+
+    divOpcoes.removeChild(checkBtnpronto);
+    divOpcoes.removeChild(checkProcurar);
+    divOpcoes.removeChild(checkopcimg);
+    delChatpvp();
+    if (foundedPokemon) {
+      foundedPokemon = null;
+    }
+
+    btnPrPA.textContent = "Procurar pokemon aleatorio";
+  }
+}
 //voltar aqui
 
 function FunCPeD(p = "", dApd = "", idDel = "") {

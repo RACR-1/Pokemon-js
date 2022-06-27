@@ -52,7 +52,7 @@ btnNpcfire.addEventListener("click", () => {
 batalharNpc.addEventListener("click", () => {
   systemStatus.formBattles = 2;
   let ch = ChosenPokemonNpcs.value;
-  console.log(ch);
+
   if (foundedPokemon) {
     if (!foundedPokemon.Played == 1) {
       if (systemStatus.run == 0) {
@@ -105,7 +105,7 @@ function firstInitiation(tipo) {
   if (systemStatus.rematchStatus > 0) {
     systemStatus.rematchStatus = 2;
   }
-  console.log(systemStatus.rematchStatus, "rematch status");
+
   if (PvpChat.children) {
     delChatpvp();
   }
@@ -119,10 +119,10 @@ function firstInitiation(tipo) {
   systemStatus.formBattles = 2;
   //
   //
-
+  systemStatus.currentyPokemon = tipo;
   if (tipo == 0) {
     labelNpc.textContent = "Treinador Tipo eletrico";
-    npcOnChatBattle(npcEletric, "", "Pronto para uma batalha Pokemon?");
+    npcOnChatBattle(npcEletric, "", "Pronto para uma batalha Pokemon?", 1);
     foundedPokemon = npcEletric.forBattle[0];
     systemStatus.NpcAtual = 0;
   } else if (tipo == 1) {

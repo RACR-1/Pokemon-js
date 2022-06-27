@@ -18,8 +18,8 @@ const ChosenPokemontypes = document.querySelector("#selectPokemonsByType");
 /* const allpokemonsByType = document.querySelector(".BtnBattles"); */
 
 OpcsByType.style.display = "none";
-divOpcoes.style.display = "none";
-
+divOpcoes.style.display = "";
+PvpNpcs.style.display = "none";
 backfirstForm.addEventListener("click", () => {
   //BtnRematchform2
   if (systemStatus.run == 0) {
@@ -47,7 +47,6 @@ battlePokemonByTypes.addEventListener("click", () => {
   let chooseValue = ChosenPokemontypes.value;
   if (foundedPokemon) {
     if (systemStatus.run == 0) {
-      console.log(mainPlayer.pokemons[ChosenPokemontypes.value]);
       systemStatus.type = 1;
       mainPlayer.pokemons[chooseValue].attack(foundedPokemon);
       funChatRef(
@@ -111,6 +110,7 @@ function intoButtonsOfType(tipo) {
         } else if (tipo == 2) {
           labelTypePokemon.textContent = "Tipo Fogo";
         }
+        systemStatus.currentyPokemon = tipo;
         updatePokemonListBattle("selectPokemonsByType");
         battleByTypes(0);
       }
@@ -129,6 +129,7 @@ function intoButtonsOfType(tipo) {
       } else if (tipo == 2) {
         labelTypePokemon.textContent = "Tipo Fogo";
       }
+      systemStatus.currentyPokemon = tipo;
       updatePokemonListBattle("selectPokemonsByType");
       battleByTypes(tipo);
     }
@@ -163,7 +164,6 @@ function battleByTypes(pokemonType) {
         foundedPokemon,
         `você encontrou um ${foundedPokemon.nome} tipo ${foundedPokemon.tipo}`
       );
-      console.log(foundedPokemon.rematch, "novo pokemon encontrado");
     }
   });
 

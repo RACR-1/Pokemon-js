@@ -2,15 +2,14 @@ const btnNpcEletric = document.querySelector("#btnBtEl");
 const btnNpcfire = document.querySelector("#btnBtFo");
 const btnNpcAquatic = document.querySelector("#btnBtAg");
 const btnBackThird = document.querySelector("#backNpc");
-//btnBtAg
+
 const labelNpc = document.querySelector(".PvpOpcoesNpc #labelChooseType");
 const ChosenPokemonNpcs = document.querySelector("#selectPokemonsNpc");
 const batalharNpc = document.querySelector("#battleNpc");
-//btnBtEl
+
 PvpNpcs;
 
 btnBackThird.addEventListener("click", () => {
-  //fazer o botão de volta e verificações
   if (systemStatus.run > 0) {
     systemStatus.stop = 1;
     btnBackThird.textContent = "Voltar e limpar";
@@ -48,7 +47,6 @@ btnNpcfire.addEventListener("click", () => {
   initiation(2);
 });
 
-//
 batalharNpc.addEventListener("click", () => {
   systemStatus.formBattles = 2;
   let ch = ChosenPokemonNpcs.value;
@@ -117,8 +115,7 @@ function firstInitiation(tipo) {
   PvpNpcs.style.display = "";
 
   systemStatus.formBattles = 2;
-  //
-  //
+
   systemStatus.currentyPokemon = tipo;
   if (tipo == 0) {
     labelNpc.textContent = "Treinador Tipo eletrico";
@@ -142,11 +139,10 @@ function firstInitiation(tipo) {
 
   let a = mainPlayer.pokemons[ChosenPokemonNpcs.value].nome;
   imgPath.src = `./imagens/${a}.png`;
-  //
+
   ChosenPokemonNpcs.addEventListener("change", () => {
     let a = mainPlayer.pokemons[ChosenPokemonNpcs.value].nome;
     imgPath.src = `./imagens/${a}.png`;
-    //
   });
 }
 

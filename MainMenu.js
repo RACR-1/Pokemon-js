@@ -1,6 +1,4 @@
 const statusLabel = document.querySelector("#lblPId");
-
-//botoes principai
 const GamesDiv = document.querySelector(".ContentWins");
 const btnMostrarPokemons = document.querySelector("#btnShowAllPKS");
 const btnMostrarVitorias = document.querySelector("#btnShowWins");
@@ -12,16 +10,12 @@ const btnBackMainTypes = document.querySelector("#typesBackMainMenu");
 const conteudo = document.querySelector(".conteudo");
 const backFromAutor = document.querySelector("#BackFromAutor");
 const outOfGame = document.querySelector("#btnSair");
-//
 
-//
 const btnEcP = document.createElement("button");
-//
 const divMTP = document.querySelector("#mostrarTodosPokemons");
 
 let online = 0;
 
-//
 function countGamesNumber(mPlayer, conditional = "") {
   if (!conditional) {
     let wNumber = [];
@@ -57,13 +51,7 @@ async function updateStatusLabel(mPlayer, autoRefres = "") {
   } else {
     let loopControl = true;
     while (loopControl) {
-      console.log("while status update");
-      /*  if (mainPlayer === undefined) {
-        statusLabel.innerText = "";
-        loopControl = false;
-      } */
       for (var i = 60; i > 0; i--) {
-        //
         statusLabel.innerText = ` Nome:[${mPlayer.nome}]-Idade:[${
           mPlayer.idade
         }]-Games:[${mPlayer.games.length}]-Vitorias:[${countGamesNumber(
@@ -71,7 +59,7 @@ async function updateStatusLabel(mPlayer, autoRefres = "") {
         )}]-Derrotas:[${countGamesNumber(mPlayer, "0")}]-Revanches:[${
           mPlayer.rematchCoins
         }] - [${mPlayer.rematchCoins > 4 ? "fullCoins" : i + "s"}]`;
-        //
+
         await new Promise((r) => setTimeout(r, 700));
         if (!mainPlayer) {
           statusLabel.innerText = "";
@@ -85,9 +73,6 @@ async function updateStatusLabel(mPlayer, autoRefres = "") {
     }
   }
 }
-/* butao.addEventListener("click", () => {
-  updateStatusLabel(mainPlayer);
-}); */
 
 function templateGameReturnCard(pokemon, result, opponent, conditional) {
   let template = `
@@ -119,21 +104,17 @@ outOfGame.addEventListener("click", () => {
   online = 0;
 });
 btnAutor.addEventListener("click", () => {
-  //
   div2.style.display = "none";
   div3.style.display = "none";
   div4.style.display = "";
 });
 backFromAutor.addEventListener("click", () => {
-  //
   div2.style.display = "";
   div3.style.display = "none";
   div4.style.display = "none";
 });
-//
 
 btnMostrarVitorias.addEventListener("click", () => {
-  //
   if (GamesDiv.children.length > 0) {
     btnMostrarVitorias.textContent = "Mostrar Jogos";
     while (GamesDiv.firstChild) {
@@ -159,7 +140,7 @@ btnMostrarVitorias.addEventListener("click", () => {
 
 btnMostrarPokemons.addEventListener("click", () => {
   const CPtest = document.querySelectorAll("#lblCP");
-  console.log("Mostrar Pokemons");
+
   if (CPtest.length >= 1) {
     FunCPeD("", divMTP, "lblCP");
   }
@@ -170,8 +151,6 @@ btnMostrarPokemons.addEventListener("click", () => {
 });
 
 btnEcP.addEventListener("click", () => {
-  //
-
   divMTP.removeChild(btnEcP);
   FunCPeD("", conteudo, "lblCP");
 });
@@ -234,7 +213,6 @@ function funBackMainMenu() {
     btnPrPA.textContent = "Procurar pokemon aleatorio";
   }
 }
-//voltar aqui
 
 function FunCPeD(p = "", dApd = "", idDel = "") {
   if (p && dApd) {
@@ -250,20 +228,14 @@ function FunCPeD(p = "", dApd = "", idDel = "") {
       dApd.appendChild(lblFunCPeD);
     }
   } else if (idDel && dApd) {
-    //
-
     const CPeDidDel = document.querySelectorAll(`#${idDel}`);
 
     for (i = 0; i < CPeDidDel.length; i++) {
       dApd.removeChild(CPeDidDel[i]);
     }
-    //
   } else {
     alert("nenhum valor foi passado");
   }
-}
-function FunCoE(e) {
-  /* contar elementos */
 }
 
 function funRtI(nm) {
@@ -302,7 +274,7 @@ async function updateNPCFrontBattle(objecto, ids = "") {
   imgchng.src = `./imagens/${objecto.forBattle[0].nome}.png`;
   while (true) {
     await new Promise((r) => setTimeout(r, 100));
-    //
+
     document.querySelector(`#${timerChange}`).textContent = `novo Pokemon em :
       ${objecto.timeToChange} s`;
     if (objecto.timeToChange == 1) {

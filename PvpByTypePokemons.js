@@ -1,37 +1,25 @@
-//
 const LightningPokemons = document.querySelector("#btnProEl");
 const watterPokemons = document.querySelector("#btnProAg");
 const firePokemons = document.querySelector("#btnProFo");
-
-//
-
 const labelTypePokemon = document.querySelector("#labelChooseType");
-//
+
 const searchPokemoneByTypes = document.querySelector("#searchPokemoneByTypes");
 const battlePokemonByTypes = document.querySelector("#battlePokemonByTypes");
 const ChosenPokemontypes = document.querySelector("#selectPokemonsByType");
-
-//labelChooseType
-//variavel de referencia para tipo de pokemon, botar um numero como valor
-//se estiver me batalha não mudar opções
-
-/* const allpokemonsByType = document.querySelector(".BtnBattles"); */
 
 OpcsByType.style.display = "none";
 divOpcoes.style.display = "";
 PvpNpcs.style.display = "none";
 backfirstForm.addEventListener("click", () => {
-  //BtnRematchform2
   if (systemStatus.run == 0) {
     systemStatus.formBattles = 0;
-    //aqui limpar
+
     if (PvpChat.firstChild) {
       delChatpvp();
       if (divOpcoes.children["slcPmBtid"]) {
         document.querySelector(".PvpOpcoes #btnProcurarPA").textContent =
           "Recolher";
       }
-      //set the name of search all pokemons
     }
     backfirstForm.textContent = "Voltar";
     divOpcoes.style.display = "";
@@ -62,11 +50,7 @@ battlePokemonByTypes.addEventListener("click", () => {
     alert("Procure um Pokemon");
   }
 });
-//pegar as classes dos butões invez do id pra mecher no frombattles
 
-//
-
-//
 LightningPokemons.addEventListener("click", () => {
   intoButtonsOfType(0);
 });
@@ -81,15 +65,12 @@ firePokemons.addEventListener("click", () => {
 
 function intoButtonsOfType(tipo) {
   if (systemStatus.run == 0) {
-    if (/* divOpcoes.children["BtnRematch"] */ systemStatus.rematchStatus > 0) {
+    if (systemStatus.rematchStatus > 0) {
       if (
         window.confirm(
           "Se você clicar nesse botão pedera sua chance de revanche."
         )
       ) {
-        /* document
-          .querySelector(".PvpOpcoes")
-          .removeChild(document.querySelector("#BtnRematch")); */
         systemStatus.rematchStatus = 2;
         if (PvpChat.children) {
           delChatpvp();
@@ -141,14 +122,10 @@ function battleByTypes(pokemonType) {
   PvpNpcs.style.display = "none";
   OpcsByType.style.display = "";
   btnBackThird.textContent = "Voltar";
-  //put the if here to verify which  div is on
 
   searchPokemoneByTypes.addEventListener("click", () => {
     if (!systemStatus.run) {
-      if (
-        /* OpcsByType.children["BtnRematchform2"] */ systemStatus.rematchStatus >
-        0
-      ) {
+      if (systemStatus.rematchStatus > 0) {
         systemStatus.rematchStatus = 2;
       }
 
@@ -171,10 +148,9 @@ function battleByTypes(pokemonType) {
 
   let a = mainPlayer.pokemons[ChosenPokemontypes.value].nome;
   imgPath.src = `./imagens/${a}.png`;
-  //
+
   ChosenPokemontypes.addEventListener("change", () => {
     let a = mainPlayer.pokemons[ChosenPokemontypes.value].nome;
     imgPath.src = `./imagens/${a}.png`;
-    //
   });
 }

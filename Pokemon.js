@@ -1,7 +1,7 @@
 let chatreference = {
   list: [],
   enemy: [],
-  names: [] /* { player: undefined, enemy: undefined } */,
+  names: [],
   firstAttack: { pokemon: [], position: [] },
   critical: { type: [], positio: [] }, // talvez fazer outro objeto como pictures
   pictures: { name: [], positio: [] },
@@ -70,9 +70,7 @@ function rdNm(typ) {
     }
   }
 }
-//if i want put rematch for specific pokemon imma need to creat one variable this.rematchNumber to compare if it has number above i want
-//turn under i want and then the pokemon gonna be unavaliable to other fight
-//for the npc it gonna make the pokemon unavaliable and then the battle will be with other random even it you just battle
+
 class Pokemon {
   constructor(nome = null, tipo = "", nivel = 2, player = "") {
     this.rematch = 0;
@@ -91,22 +89,17 @@ class Pokemon {
       }
     };
     this.dano = (champion) => {
-      //
       let lifoponent = champion.life;
       let initial = champion.life;
-      //
+
       lifoponent = lifoponent - this.damage();
 
       let danocausado = initial - lifoponent;
 
       return [danocausado, lifoponent];
-      //
     };
-    //
+
     this.attack = (champion) => {
-      //
-      /* chatreference.battleRslt.win = undefined;
-      chatreference.battleRslt.Loose = undefined; */
       chatreference.pictures.name = "";
       chatreference.pictures.name = [];
       chatreference.pictures.positio = "";
@@ -115,8 +108,6 @@ class Pokemon {
       chatreference.names = [];
       chatreference.names.push(this.nome);
       chatreference.names.push(champion.nome);
-
-      //
       chatreference.enemy = "";
       chatreference.enemy = [];
       chatreference.enemy.push(champion);
@@ -131,7 +122,7 @@ class Pokemon {
       chatreference.list.push(
         `Vida inicial de seu pokemon ${this.nome} : ${mylife} , vida inicial de ${champion.nome} inimigo : ${lifoponent}.`
       );
-      //
+
       chatreference.pictures.positio.push(chatreference.list.length - 1);
       chatreference.pictures.name.push(0);
       chatreference.list.push(`Sorteando Primeiro ataque`);
@@ -151,16 +142,10 @@ class Pokemon {
       if (fAttack === 0) {
         ////////////////////////////////////////////////////////////////////////////////
         while (true) {
-          //
-          //
-          //
-
           let meudano = lifoponent;
           lifoponent = lifoponent - this.damage();
           let dCausado = meudano - lifoponent; //
 
-          //if dano tal maior que adicionar no chat reference com push vai ser uma lista de 0 ou 1 assim da pra ver se é critico
-          // mesmo sistema com as fotos tem 2 ataques no primeiro bota 1 no segundo zero essa numeração vai definir prioridade
           chatreference.list.push(
             `Seu ${this.nome} Tipo : ${this.tipo} Deu ${dCausado} de dano no ${champion.nome} `
           );
@@ -170,7 +155,7 @@ class Pokemon {
           }
           chatreference.pictures.positio.push(chatreference.list.length - 1);
           chatreference.pictures.name.push(0);
-          //aqui
+
           if (lifoponent <= 0) {
             chatreference.list.push(
               `Você venceu! ${champion.nome} inimigo esta com ${lifoponent} de vida! `
@@ -180,7 +165,6 @@ class Pokemon {
               `Vida atual de Seu pokemon ${this.nome} é ${mylife}`
             );
             chatreference.list.push({ Win: "win" });
-            //put the while here
 
             if (this.player) {
               let battleResult = {
@@ -191,7 +175,6 @@ class Pokemon {
                 conditional: 1,
                 pokemons: [this.nome, champion.nome],
               };
-              /*  this.player.games.push(battleResult); */
               pushGametoPlayer(this.player, battleResult);
             }
 
@@ -203,11 +186,8 @@ class Pokemon {
                 pokemons: [this.nome, champion.nome],
               };
 
-              /* champion.player.games.push(battleResult); */
               pushGametoPlayer(champion.player, battleResult);
             }
-
-            //end here
 
             break;
           }
@@ -222,7 +202,7 @@ class Pokemon {
           chatreference.list.push(
             `${champion.nome} tipo: ${champion.tipo} deu ${dCausadoOp} em seu pokemon ${this.nome} `
           );
-          //
+
           if (dCausadoOp > 4) {
             chatreference.critical.positio.push(chatreference.list.length - 1);
             chatreference.critical.type.push(champion.tipo);
@@ -245,7 +225,6 @@ class Pokemon {
                 pokemons: [this.nome, champion.nome],
               };
 
-              /* champion.player.games.push(battleResult); */
               pushGametoPlayer(champion.player, battleResult);
             }
 
@@ -259,7 +238,6 @@ class Pokemon {
                 pokemons: [this.nome, champion.nome],
               };
 
-              /* this.player.games.push(battleResult); */
               pushGametoPlayer(this.player, battleResult);
             }
 
@@ -302,7 +280,6 @@ class Pokemon {
                 pokemons: [this.nome, champion.nome],
               };
 
-              /* champion.player.games.push(battleResult); */
               pushGametoPlayer(champion.player, battleResult);
             }
 
@@ -315,8 +292,6 @@ class Pokemon {
                 conditional: 0,
                 pokemons: [this.nome, champion.nome],
               };
-
-              /*  this.player.games.push(battleResult); */
               pushGametoPlayer(this.player, battleResult);
             }
 
@@ -329,8 +304,6 @@ class Pokemon {
           lifoponent = lifoponent - this.damage();
           let dCausado = meudano - lifoponent; //
 
-          //if dano tal maior que adicionar no chat reference com push vai ser uma lista de 0 ou 1 assim da pra ver se é critico
-          // mesmo sistema com as fotos tem 2 ataques no primeiro bota 1 no segundo zero essa numeração vai definir prioridade
           chatreference.list.push(
             `Seu ${this.nome} Tipo : ${this.tipo} Deu ${dCausado} de dano no ${champion.nome} `
           );
@@ -340,9 +313,8 @@ class Pokemon {
           }
           chatreference.pictures.positio.push(chatreference.list.length - 1);
           chatreference.pictures.name.push(0);
-          //aqui
+
           if (lifoponent <= 0) {
-            //
             chatreference.list.push(
               `Você venceu! ${champion.nome} inimigo esta com ${lifoponent} de vida! `
             );
@@ -361,8 +333,6 @@ class Pokemon {
                 conditional: 1,
                 pokemons: [this.nome, champion.nome],
               };
-
-              /* this.player.games.push(battleResult); */
               pushGametoPlayer(this.player, battleResult);
             }
 
@@ -373,8 +343,6 @@ class Pokemon {
                 conditional: 0,
                 pokemons: [this.nome, champion.nome],
               };
-
-              /* champion.player.games.push(battleResult); */
               pushGametoPlayer(champion.player, battleResult);
             }
 
@@ -388,7 +356,6 @@ class Pokemon {
           //
         }
       }
-      //push game into player
       async function pushGametoPlayer(PlayerToPush, gameToPush) {
         chatreference.battle_Status.much.push(
           chatreference.battle_Status.much.length
@@ -401,7 +368,6 @@ class Pokemon {
             PlayerToPush.games.push(gameToPush);
 
             chatreference.battle_Status.much.pop();
-            /* chatreference.end = 0; */
             break;
           }
 

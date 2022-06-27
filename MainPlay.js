@@ -11,14 +11,11 @@ const maindiv = document.querySelector(".main");
 const div2 = document.querySelector(".num2");
 const div3 = document.querySelector(".num3");
 const div4 = document.querySelector(".num4");
-//btnSair
+
 div2.style.display = "none";
 div3.style.display = "none";
 div4.style.display = "none";
 let pvpDiv = "";
-//criar outro arquivo pras cidades e pvp
-/* labelLista.style.display = "none";
-selcpokes.style.display = "none"; */
 
 var mainPlayer = "";
 
@@ -116,8 +113,6 @@ function showpks(p) {
 
 function insertPokemon(player1, pokemon) {
   if (Array.isArray(pokemon) == true) {
-    //
-
     for (var i = 0; i < pokemon.length; i++) {
       pokemon[i].player = player1;
       if (player1.Npc) {
@@ -137,8 +132,6 @@ function insertPokemon(player1, pokemon) {
   }
 }
 
-//
-
 function generateNpcFull(tipo) {
   let nome;
   let listOfinsert;
@@ -157,13 +150,11 @@ function generateNpcFull(tipo) {
 
   insertPokemon(NpcReturn, listOfinsert);
   return NpcReturn;
-  //
 }
 function generatePokemonArray(number) {
   let listToReturn = [];
   for (var i = 1; i < listadospoke[number].length; i++) {
     listToReturn.push(new Pokemon(listadospoke[number][i]));
-    //
   }
 
   return listToReturn;
